@@ -1,7 +1,7 @@
 #!/bin/bash
 clear
 
-echo -e "Traltor v1.2\nTor will be automatically installed and configured…\n\n"
+echo -e "Traktor v1.2\nTor will be automatically installed and configured…\n\n"
 
 # Install Packages
 sudo apt install -y tor obfs4proxy polipo dnscrypt-proxy torbrowser-launcher
@@ -15,7 +15,7 @@ ClientTransportPlugin obfs4 exec /usr/bin/obfs4proxy" | sudo tee /etc/tor/torrc
 sudo sed -i '27s/PUx/ix/' /etc/apparmor.d/abstractions/tor
 sudo apparmor_parser -r -v /etc/apparmor.d/system_tor
 
-# Write Polipo
+# Write Polipo config
 echo 'proxyAddress = "::0"        # both IPv4 and IPv6
 allowedClients = 127.0.0.1
 socksParentProxy = "localhost:9050"
