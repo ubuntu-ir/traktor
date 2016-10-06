@@ -9,7 +9,7 @@ sudo apt install -y tor obfs4proxy polipo dnscrypt-proxy torbrowser-launcher
 # Write Bridge
 echo "UseBridges 1
 Bridge obfs4 194.132.209.170:36441 B16B4B1B10910B6EC4A3E713297C4EAE9DFB5229 cert=SzdrMUoL49NrQ0WpTy3dw26MlxNAcvD3lLFqZDrAA/euN++77WueeirzoV2OU5QpJplfUQ iat-mode=0
-ClientTransportPlugin obfs4 exec /usr/bin/obfs4proxy" | sudo tee /etc/tor/torrc
+ClientTransportPlugin obfs4 exec /usr/bin/obfs4proxy" | sudo tee /etc/tor/torrc > /dev/null
 
 # Fix Problem Apparmor
 sudo sed -i '27s/PUx/ix/' /etc/apparmor.d/abstractions/tor
@@ -19,7 +19,7 @@ sudo apparmor_parser -r -v /etc/apparmor.d/system_tor
 echo 'proxyAddress = "::0"        # both IPv4 and IPv6
 allowedClients = 127.0.0.1
 socksParentProxy = "localhost:9050"
-socksProxyType = socks5' | sudo tee -a /etc/polipo/config
+socksProxyType = socks5' | sudo tee -a /etc/polipo/config > /dev/null
 sudo service polipo restart
 
 # Set IP and Port on HTTP
