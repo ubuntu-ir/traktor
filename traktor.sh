@@ -1,33 +1,28 @@
 #!/bin/bash
 clear
 
-echo -e "Tor Auto Installer V1.1\n by Sosha\n\n"
-
-# Read Password
-echo "Please enter password"
-read -s password
-
-# Waiting...
-echo -e "Please Wait to Install Packages...\n"
-sleep 3
+echo -e "Traktor v1.3\nTor will be automatically installed and configured…\n\n"
 
 # Install Packages
-sudo apt install tor obfs4proxy polipo dnscrypt-proxy torbrowser-launcher
+sudo apt install -y tor obfs4proxy polipo dnscrypt-proxy torbrowser-launcher
+echo -e '\nInstall Packages Compelete.'
 
 # Write Bridge
-echo "$password" |sudo -S bash -c 'echo -e "UseBridges 1
+echo "UseBridges 1
 Bridge obfs4 194.132.209.170:36441 B16B4B1B10910B6EC4A3E713297C4EAE9DFB5229 cert=SzdrMUoL49NrQ0WpTy3dw26MlxNAcvD3lLFqZDrAA/euN++77WueeirzoV2OU5QpJplfUQ iat-mode=0
-ClientTransportPlugin obfs4 exec /usr/bin/obfs4proxy" >> /etc/tor/torrc'
+ClientTransportPlugin obfs4 exec /usr/bin/obfs4proxy" | sudo -a tee /etc/tor/torrc > /dev/null
+echo 'Replacement succeeded for "torrc".'
 
 # Fix Problem Apparmor
 sudo sed -i '27s/PUx/ix/' /etc/apparmor.d/abstractions/tor
 sudo apparmor_parser -r -v /etc/apparmor.d/system_tor
 
-# Write Polipo
-echo "$password" |sudo -S bash -c 'echo -e "\nproxyAddress = "::0"        # both IPv4 and IPv6
-allowedClients = 127.0.0.1/24
+# Write Polipo config
+echo 'proxyAddress = "::0"        # both IPv4 and IPv6
+allowedClients = 127.0.0.1
 socksParentProxy = "localhost:9050"
-socksProxyType = socks5" >> /etc/polipo/config'
+socksProxyType = socks5' | sudo tee -a /etc/polipo/config > /dev/null
+echo 'Replacement succeeded for "Polipo Config".'
 sudo service polipo restart
 
 # Set IP and Port on HTTP
@@ -36,9 +31,9 @@ gsettings set org.gnome.system.proxy.http host 127.0.0.1
 gsettings set org.gnome.system.proxy.http port 8123
 
 # Restart Tor Service
-sudo systemctl restart tor.service
+sudo service tor restart
 
 # Install Finish
-echo "Install Finish..."
+echo "Install Finished Successfully…"
 sleep 3
-echo -e "Please type '\e[32mtail -f /var/log/tor/log\e[0m to see log." 'but see "\e[31mBootstrapped 100%: Done\e[0m"' "mean tor is \e[92mActive!"
+echo -e "\nPlease type '\e[32mtail -f /var/log/tor/log\e[0m' to see log." 'but see "\e[31mBootstrapped 100%: Done\e[0m"' "mean tor is \e[92mActive!"
