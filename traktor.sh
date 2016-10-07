@@ -10,7 +10,7 @@ echo -e '\nInstall Packages Compelete.'
 # Write Bridge
 echo "UseBridges 1
 Bridge obfs4 194.132.209.170:36441 B16B4B1B10910B6EC4A3E713297C4EAE9DFB5229 cert=SzdrMUoL49NrQ0WpTy3dw26MlxNAcvD3lLFqZDrAA/euN++77WueeirzoV2OU5QpJplfUQ iat-mode=0
-ClientTransportPlugin obfs4 exec /usr/bin/obfs4proxy" | sudo -a tee /etc/tor/torrc > /dev/null
+ClientTransportPlugin obfs4 exec /usr/bin/obfs4proxy" | sudo tee -a /etc/tor/torrc > /dev/null
 echo 'Replacement succeeded for "torrc".'
 
 # Fix Problem Apparmor
