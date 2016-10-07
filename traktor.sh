@@ -4,7 +4,12 @@ clear
 echo -e "Traktor v1.2\nTor will be automatically installed and configured…\n\n"
 
 # Install Packages
-sudo apt install -y tor obfs4proxy polipo dnscrypt-proxy torbrowser-launcher
+sudo apt update && sudo apt install -y \
+	tor \
+	obfs4proxy \
+	polipo \
+	dnscrypt-proxy \
+	torbrowser-launcher
 
 # Write Bridge
 echo "UseBridges 1
