@@ -70,4 +70,4 @@ sudo sed -i '27s/PUx/ix/' /etc/apparmor.d/abstractions/tor
 sudo apparmor_parser -r -v /etc/apparmor.d/system_tor
 
 # update finished
-echo "Congratulations!!! Your computer is using Tor. may now run torbrowser-launcher now."
+echo "Congratulations!!! Your computer is using Tor. may run torbrowser-launcher now."
