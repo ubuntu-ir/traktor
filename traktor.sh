@@ -9,7 +9,8 @@ sudo apt update && sudo apt install -y \
 	obfs4proxy \
 	polipo \
 	dnscrypt-proxy \
-	torbrowser-launcher
+	torbrowser-launcher \
+	apt-transport-tor
 
 # Write Bridge
 echo "UseBridges 1
@@ -21,26 +22,24 @@ Bridge obfs4 154.35.22.12:80 00DC6C4FA49A65BD1472993CF6730D54F11E0DBB cert=N86E9
 Bridge obfs4 154.35.22.9:80 C73ADBAC8ADFDBF0FC0F3F4E8091C0107D093716 cert=gEGKc5WN/bSjFa6UkG9hOcft1tuK+cV8hbZ0H6cqXiMPLqSbCh2Q3PHe5OOr6oMVORhoJA iat-mode=0
 ClientTransportPlugin obfs4 exec /usr/bin/obfs4proxy" | sudo tee /etc/tor/torrc > /dev/null
 
-### These lines should work perfectly, but they make problem in locations where tor website is unreachable
-### TODO: Install tor plugin for apt first and then add tor repo via tor
-## Reload Tor for new torrc to take effect
-#sudo service tor reload
-#
-## Get dist info
-#DIST=$(lsb_release -sc)
-#
-## Add Tor to sources.list to get the latest version
-#sudo printf \
-#      "deb http://deb.torproject.org/torproject.org $DIST main \
-#      \ndeb-src http://deb.torproject.org/torproject.org $DIST main" \
-#      >> /etc/apt/sources.list.d/tor.list
-#
-## Fetching Tor signing key and adding it to the keyring
-#gpg --keyserver keys.gnupg.net --recv 886DDD89
-#gpg --export A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | sudo apt-key add -
-#
-## Update Tor
-#sudo torsocks apt update && sudo apt install tor -y
+# Reload Tor for new torrc to take effect
+sudo service tor reload
+
+# Get dist info
+DIST=$(lsb_release -sc)
+
+# Add Tor to sources.list to get the latest version
+sudo printf \
+      "deb tor://deb.torproject.org/torproject.org $DIST main \
+      \ndeb-src tor://deb.torproject.org/torproject.org $DIST main" \
+      >> /etc/apt/sources.list.d/tor.list
+
+# Fetching Tor signing key and adding it to the keyring
+gpg --keyserver keys.gnupg.net --recv 886DDD89
+gpg --export A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | sudo apt-key add -
+
+# Update Tor
+sudo apt update && sudo apt install tor -y
 
 # Fix Problem Apparmor
 sudo sed -i '27s/PUx/ix/' /etc/apparmor.d/abstractions/tor
