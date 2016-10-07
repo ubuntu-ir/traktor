@@ -4,12 +4,14 @@ clear
 echo -e "Traktor v1.2\nTor will be automatically installed and configured…\n\n"
 
 # Install Packages
-sudo apt update && sudo apt install -y \
+sudo apt update > /dev/null
+sudo apt install -y \
 	tor \
 	obfs4proxy \
 	polipo \
 	dnscrypt-proxy \
-	torbrowser-launcher
+	torbrowser-launcher \
+	apt-transport-tor
 
 # Write Bridge
 echo "UseBridges 1
@@ -20,27 +22,6 @@ Bridge obfs4 154.35.22.13:443 FE7840FE1E21FE0A0639ED176EDA00A3ECA1E34D cert=fKnz
 Bridge obfs4 154.35.22.12:80 00DC6C4FA49A65BD1472993CF6730D54F11E0DBB cert=N86E9hKXXXVz6G7w2z8wFfhIDztDAzZ/3poxVePHEYjbKDWzjkRDccFMAnhK75fc65pYSg iat-mode=0
 Bridge obfs4 154.35.22.9:80 C73ADBAC8ADFDBF0FC0F3F4E8091C0107D093716 cert=gEGKc5WN/bSjFa6UkG9hOcft1tuK+cV8hbZ0H6cqXiMPLqSbCh2Q3PHe5OOr6oMVORhoJA iat-mode=0
 ClientTransportPlugin obfs4 exec /usr/bin/obfs4proxy" | sudo tee /etc/tor/torrc > /dev/null
-
-### These lines should work perfectly, but they make problem in locations where tor website is unreachable
-### TODO: Install tor plugin for apt first and then add tor repo via tor
-## Reload Tor for new torrc to take effect
-#sudo service tor reload
-#
-## Get dist info
-#DIST=$(lsb_release -sc)
-#
-## Add Tor to sources.list to get the latest version
-#sudo printf \
-#      "deb http://deb.torproject.org/torproject.org $DIST main \
-#      \ndeb-src http://deb.torproject.org/torproject.org $DIST main" \
-#      >> /etc/apt/sources.list.d/tor.list
-#
-## Fetching Tor signing key and adding it to the keyring
-#gpg --keyserver keys.gnupg.net --recv 886DDD89
-#gpg --export A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | sudo apt-key add -
-#
-## Update Tor
-#sudo torsocks apt update && sudo apt install tor -y
 
 # Fix Problem Apparmor
 sudo sed -i '27s/PUx/ix/' /etc/apparmor.d/abstractions/tor
@@ -58,10 +39,35 @@ gsettings set org.gnome.system.proxy mode 'manual'
 gsettings set org.gnome.system.proxy.http host 127.0.0.1
 gsettings set org.gnome.system.proxy.http port 8123
 
-# Restart Tor Service
-sudo service tor restart
-
 # Install Finish
 echo "Install Finished successfully…"
-sleep 3
-echo -e "Please type '\e[32mtail -f /var/log/tor/log\e[0m to see log." 'but see "\e[31mBootstrapped 100%: Done\e[0m"' "mean tor is \e[92mActive!"
+
+# Wait for tor to establish connection
+echo -e "Open a new terminal window and type '\e[32mtail -f /var/log/tor/log\e[0m'. If you see '\e[31mBootstrapped 100%: Done\e[0m', close that terminal and enter 'y' here. If the log got stuck for more than five minutes, enter 'n' to restart the proccess."
+state=n
+while [ $state != 'y' ] || [ $state != 'Y' ]; do
+	if [ $state == 'n' ] || [ $state == 'N' ]; then
+		sudo service tor restart
+	fi
+	read state
+done
+
+# Add tor repos
+echo "deb tor+http://deb.torproject.org/torproject.org stable main" | sudo tee /etc/apt/sources.list.d/tor.list > /dev/null
+
+# Fetching Tor signing key and adding it to the keyring
+gpg --keyserver keys.gnupg.net --recv 886DDD89
+gpg --export A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | sudo apt-key add -
+
+# update tor from main repo
+sudo apt-get update > /dev/null
+sudo apt install -y \
+	tor \
+	obfs4proxy
+
+# Fix Problem Apparmor
+sudo sed -i '27s/PUx/ix/' /etc/apparmor.d/abstractions/tor
+sudo apparmor_parser -r -v /etc/apparmor.d/system_tor
+
+# update finished
+echo "Congratulations!!! Your computer is using Tor. may now run torbrowser-launcher now."
