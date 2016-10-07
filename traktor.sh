@@ -17,7 +17,7 @@ echo 'Replacement succeeded for "torrc".'
 sudo sed -i '27s/PUx/ix/' /etc/apparmor.d/abstractions/tor
 sudo apparmor_parser -r -v /etc/apparmor.d/system_tor
 
-# Write Polipo config
+# Write Polipo Config
 echo 'proxyAddress = "::0"        # both IPv4 and IPv6
 allowedClients = 127.0.0.1
 socksParentProxy = "localhost:9050"
@@ -25,7 +25,7 @@ socksProxyType = socks5' | sudo tee -a /etc/polipo/config > /dev/null
 echo 'Replacement succeeded for "Polipo Config".'
 sudo service polipo restart
 
-# Set IP and Port on HTTP
+# Set IP and Port on HTTP Network
 gsettings set org.gnome.system.proxy mode 'manual'
 gsettings set org.gnome.system.proxy.http host 127.0.0.1
 gsettings set org.gnome.system.proxy.http port 8123
