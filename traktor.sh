@@ -25,6 +25,11 @@ ClientTransportPlugin obfs4 exec /usr/bin/obfs4proxy" | sudo tee /etc/tor/torrc 
 # Reload Tor for new torrc to take effect
 sudo service tor reload
 
+# Wait for Tor to bootstrap otherwise the script will break
+# TODO: script should check for /var/log/tor/log and continue only after
+# Tor is 100% bootstrapped.
+sleep 120
+
 # Get dist info
 DIST=$(lsb_release -sc)
 
@@ -56,9 +61,6 @@ sudo service polipo restart
 gsettings set org.gnome.system.proxy mode 'manual'
 gsettings set org.gnome.system.proxy.http host 127.0.0.1
 gsettings set org.gnome.system.proxy.http port 8123
-
-# Restart Tor Service
-sudo service tor restart
 
 # Install Finish
 echo "Install Finished successfully…"
