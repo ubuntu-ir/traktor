@@ -1,7 +1,7 @@
 #!/bin/bash
 clear
 
-echo -e "Traktor v1.2\nTor will be automatically installed and configured…\n\n"
+echo -e "Traktor v1.3\nTor will be automatically installed and configured…\n\n"
 
 # Install Packages
 sudo apt-get update > /dev/null
@@ -23,7 +23,7 @@ Bridge obfs4 154.35.22.12:80 00DC6C4FA49A65BD1472993CF6730D54F11E0DBB cert=N86E9
 Bridge obfs4 154.35.22.9:80 C73ADBAC8ADFDBF0FC0F3F4E8091C0107D093716 cert=gEGKc5WN/bSjFa6UkG9hOcft1tuK+cV8hbZ0H6cqXiMPLqSbCh2Q3PHe5OOr6oMVORhoJA iat-mode=0
 ClientTransportPlugin obfs4 exec /usr/bin/obfs4proxy" | sudo tee /etc/tor/torrc > /dev/null
 
-# Fix Problem Apparmor
+# Fix Apparmor problem
 sudo sed -i '27s/PUx/ix/' /etc/apparmor.d/abstractions/tor
 sudo apparmor_parser -r -v /etc/apparmor.d/system_tor
 
@@ -67,7 +67,7 @@ sudo apt install -y \
 	tor \
 	obfs4proxy
 
-# Fix Problem Apparmor
+# Fix Apparmor problem
 sudo sed -i '27s/PUx/ix/' /etc/apparmor.d/abstractions/tor
 sudo apparmor_parser -r -v /etc/apparmor.d/system_tor
 
