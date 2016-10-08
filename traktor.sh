@@ -4,7 +4,7 @@ clear
 echo -e "Traktor v1.2\nTor will be automatically installed and configured…\n\n"
 
 # Install Packages
-sudo apt update > /dev/null
+sudo apt-get update > /dev/null
 sudo apt install -y \
 	tor \
 	obfs4proxy \
@@ -47,7 +47,7 @@ echo "Tor is trying to establish a connection. This may take long for some minut
 bootstraped='n'
 sudo service tor restart
 while [ $bootstraped == 'n' ]; do
-	if cat /var/log/tor/log | grep "Bootstrapped 100%: Done"; then
+	if sudo cat /var/log/tor/log | grep "Bootstrapped 100%: Done"; then
 		bootstraped='y'
 	else
 		sleep 1
