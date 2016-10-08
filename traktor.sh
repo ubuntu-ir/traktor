@@ -43,13 +43,15 @@ gsettings set org.gnome.system.proxy.http port 8123
 echo "Install Finished successfully…"
 
 # Wait for tor to establish connection
-echo -e "Open a new terminal window and type '\e[32mtail -f /var/log/tor/log\e[0m'. If you see '\e[31mBootstrapped 100%: Done\e[0m', close that terminal and enter 'y' here. If the log got stuck for more than five minutes, enter 'n' to restart the proccess."
-state=n
-while [ $state != 'y' ] || [ $state != 'Y' ]; do
-	if [ $state == 'n' ] || [ $state == 'N' ]; then
-		sudo service tor restart
+echo "Tor is trying to establish a connection. This may take long for some minutes. Please wait" | sudo tee /var/log/tor/log
+bootstraped='n'
+sudo service tor restart
+while [ $bootstraped == 'n' ]; do
+	if cat /var/log/tor/log | grep "Bootstrapped 100%: Done"; then
+		bootstraped='y'
+	else
+		sleep 1
 	fi
-	read state
 done
 
 # Add tor repos
