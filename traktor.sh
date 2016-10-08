@@ -28,10 +28,12 @@ sudo sed -i '27s/PUx/ix/' /etc/apparmor.d/abstractions/tor
 sudo apparmor_parser -r -v /etc/apparmor.d/system_tor
 
 # Write Polipo config
-echo 'proxyAddress = "::0"        # both IPv4 and IPv6
+echo 'logSyslog = true
+logFile = /var/log/polipo/polipo.log
+proxyAddress = "::0"        # both IPv4 and IPv6
 allowedClients = 127.0.0.1
 socksParentProxy = "localhost:9050"
-socksProxyType = socks5' | sudo tee -a /etc/polipo/config > /dev/null
+socksProxyType = socks5' | sudo tee /etc/polipo/config > /dev/null
 sudo service polipo restart
 
 # Set IP and Port on HTTP
