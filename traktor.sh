@@ -22,6 +22,7 @@ Bridge obfs4 154.35.22.13:443 FE7840FE1E21FE0A0639ED176EDA00A3ECA1E34D cert=fKnz
 Bridge obfs4 154.35.22.12:80 00DC6C4FA49A65BD1472993CF6730D54F11E0DBB cert=N86E9hKXXXVz6G7w2z8wFfhIDztDAzZ/3poxVePHEYjbKDWzjkRDccFMAnhK75fc65pYSg iat-mode=0
 Bridge obfs4 154.35.22.9:80 C73ADBAC8ADFDBF0FC0F3F4E8091C0107D093716 cert=gEGKc5WN/bSjFa6UkG9hOcft1tuK+cV8hbZ0H6cqXiMPLqSbCh2Q3PHe5OOr6oMVORhoJA iat-mode=0
 ClientTransportPlugin obfs4 exec /usr/bin/obfs4proxy" | sudo tee /etc/tor/torrc > /dev/null
+echo -e '\nReplacement succeeded for "torrc".'
 
 # Fix Apparmor problem
 sudo sed -i '27s/PUx/ix/' /etc/apparmor.d/abstractions/tor
@@ -35,17 +36,15 @@ allowedClients = 127.0.0.1
 socksParentProxy = "localhost:9050"
 socksProxyType = socks5' | sudo tee /etc/polipo/config > /dev/null
 sudo service polipo restart
+echo 'Replacement succeeded for "Polipo Config".'
 
 # Set IP and Port on HTTP
 gsettings set org.gnome.system.proxy mode 'manual'
 gsettings set org.gnome.system.proxy.http host 127.0.0.1
 gsettings set org.gnome.system.proxy.http port 8123
 
-# Install Finish
-echo "Install Finished successfully…"
-
 # Wait for tor to establish connection
-echo "Tor is trying to establish a connection. This may take long for some minutes. Please wait" | sudo tee /var/log/tor/log
+echo -e "\nTor is trying to establish a connection. This may take long for some minutes. \nPlease wait to see log:"" | sudo tee /var/log/tor/log
 bootstraped='n'
 sudo service tor restart
 while [ $bootstraped == 'n' ]; do
@@ -57,21 +56,29 @@ while [ $bootstraped == 'n' ]; do
 done
 
 # Add tor repos
+echo -e '\nWait to add reposirty'
 echo "deb tor+http://deb.torproject.org/torproject.org stable main" | sudo tee /etc/apt/sources.list.d/tor.list > /dev/null
 
 # Fetching Tor signing key and adding it to the keyring
 gpg --keyserver keys.gnupg.net --recv 886DDD89
 gpg --export A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | sudo apt-key add -
+echo -e 'Repossitory Succeeded to Add!\n'
 
-# update tor from main repo
+# Update tor from main repo
 sudo apt-get update > /dev/null
 sudo apt install -y \
 	tor \
 	obfs4proxy
 
-# Fix Apparmor problem
+# Fix Apparmor Problem
 sudo sed -i '27s/PUx/ix/' /etc/apparmor.d/abstractions/tor
+
+# Messages Successfully
+echo -e '\nInstall Packages Compelete.'
 sudo apparmor_parser -r -v /etc/apparmor.d/system_tor
 
-# update finished
+# Install Finish
+echo -e "\nInstall Finished Successfully…"
+
+# Update Finished
 echo "Congratulations!!! Your computer is using Tor. may run torbrowser-launcher now."
