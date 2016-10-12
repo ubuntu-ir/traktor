@@ -6,4 +6,6 @@ To do this, just run 'traktor.sh' file in a supported shell like bash and watch 
 ## Remote install
 type in bash:
 
-`curl -s https://github.com/ubuntu-ir/traktor/raw/master/traktor.sh | sh`
+`wget https://github.com/Maders/traktor/archive/master.zip -O traktor.zip`
+`unzip traktor.zip && cd traktor-master`
+`./traktor.sh`
