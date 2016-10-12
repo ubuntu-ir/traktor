@@ -7,5 +7,7 @@ To do this, just run 'traktor.sh' file in a supported shell like bash and watch 
 type in bash:
 
 `wget https://github.com/Maders/traktor/archive/master.zip -O traktor.zip`
+
 `unzip traktor.zip && cd traktor-master`
+
 `./traktor.sh`
