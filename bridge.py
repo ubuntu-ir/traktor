@@ -1,11 +1,18 @@
 #!/usr/bin/env python3
-import requests, json, random
+import requests, json, random, sys
 
-number_of_output_bridge = 3
 url = "http://maders.ir/bridges/bridges.json"
 
-respone = requests.get(url)
-temp_bridge = respone.json()['bridge']
+response = requests.get(url)
+temp_bridge = response.json()['bridge']
+
+if len(sys.argv) == 2:
+    if int(sys.argv[1]) <= len(temp_bridge):
+        number_of_output_bridge = int(sys.argv[1])
+    else:
+        number_of_output_bridge = 3
+else:
+    number_of_output_bridge = 3
 
 bridge = []
 
