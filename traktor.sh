@@ -14,7 +14,7 @@ sudo apt install -y \
 	apt-transport-tor
 
 # Write Bridge
-sudo wget https://ubuntu-ir.github.io/traktor/torrc -O /etc/tor/torrc
+sudo wget https://ubuntu-ir.github.io/traktor/torrc -O /etc/tor/torrc > /dev/null
 
 # Fix Apparmor problem
 sudo sed -i '27s/PUx/ix/' /etc/apparmor.d/abstractions/tor
