@@ -5,8 +5,8 @@ echo -e "Traktor v1.3\nTor will be automatically installed and configured…\n\n
 
 # Install Packages
 sudo pacman -Sy > /dev/null
-yaourt -S obfs4proxy tor-browser-en
-sudo pacman -S tor  polipo dnscrypt-proxy 
+yaourt -S  tor-browser-en
+sudo pacman -S	tor obfsproxy polipo dnscrypt-proxy  
 
 # Write Bridge
 sudo wget https://ubuntu-ir.github.io/traktor/torrc -O /etc/tor/torrc > /dev/null
@@ -32,19 +32,20 @@ gsettings set org.gnome.system.proxy ignore-hosts "['localhost', '127.0.0.0/8', 
 
 # Install Finish
 echo "Install Finished successfully…"
-
+systemctl start tor 1>/dev/null 2>&1
+systemctl enable tor 1>/dev/null 2>&1
 # Wait for tor to establish connection
-echo "Tor is trying to establish a connection. This may take long for some minutes. Please wait" | sudo tee /var/log/tor/log
+echo "Tor is trying to establish a connection. This may take long for some minutes. Please wait" | sudo tee <(systemctl status tor)
 bootstraped='n'
-sudo service tor restart
+sudo systemctl restart tor
 while [ $bootstraped == 'n' ]; do
-	if sudo cat /var/log/tor/log | grep "Bootstrapped 100%: Done"; then
+	if sudo grep "Bootstrapped 100%: Done" <(systemctl status tor); then
 		bootstraped='y'
 	else
 		sleep 1
 	fi
 done
-#The following lines are commented because they are supposed to work in  debian base distroes
+#The following lines are commented because they were supposed to run in debian base distros
 # Add tor repos
 #echo "deb tor+http://deb.torproject.org/torproject.org stable main" | sudo tee /etc/apt/sources.list.d/tor.list > /dev/null
 
@@ -63,4 +64,4 @@ done
 #sudo apparmor_parser -r -v /etc/apparmor.d/system_tor
 
 # update finished
-echo "Congratulations!!! Your computer is using Tor. may run torbrowser-launcher now."
+echo "Congratulations!!! Your computer is using Tor. may run tor-browser-en now."
