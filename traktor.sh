@@ -4,21 +4,16 @@ clear
 echo -e "Traktor v1.3\nTor will be automatically installed and configured…\n\n"
 
 # Install Packages
-sudo apt-get update > /dev/null
-sudo apt install -y \
-	tor \
-	obfs4proxy \
-	polipo \
-	dnscrypt-proxy \
-	torbrowser-launcher \
-	apt-transport-tor
+sudo pacman -Sy > /dev/null
+yaourt -S obfs4proxy tor-browser-en
+sudo pacman -S tor  polipo dnscrypt-proxy 
 
 # Write Bridge
 sudo wget https://ubuntu-ir.github.io/traktor/torrc -O /etc/tor/torrc > /dev/null
 
 # Fix Apparmor problem
-sudo sed -i '27s/PUx/ix/' /etc/apparmor.d/abstractions/tor
-sudo apparmor_parser -r -v /etc/apparmor.d/system_tor
+#sudo sed -i '27s/PUx/ix/' /etc/apparmor.d/abstractions/tor
+#sudo apparmor_parser -r -v /etc/apparmor.d/system_tor
 
 # Write Polipo config
 echo 'logSyslog = true
@@ -27,7 +22,7 @@ proxyAddress = "::0"        # both IPv4 and IPv6
 allowedClients = 127.0.0.1
 socksParentProxy = "localhost:9050"
 socksProxyType = socks5' | sudo tee /etc/polipo/config > /dev/null
-sudo service polipo restart
+sudo systemctl restart polipo
 
 # Set IP and Port on HTTP
 gsettings set org.gnome.system.proxy mode 'manual'
@@ -49,23 +44,23 @@ while [ $bootstraped == 'n' ]; do
 		sleep 1
 	fi
 done
-
+#The following lines are commented because they are supposed to work in  debian base distroes
 # Add tor repos
-echo "deb tor+http://deb.torproject.org/torproject.org stable main" | sudo tee /etc/apt/sources.list.d/tor.list > /dev/null
+#echo "deb tor+http://deb.torproject.org/torproject.org stable main" | sudo tee /etc/apt/sources.list.d/tor.list > /dev/null
 
 # Fetching Tor signing key and adding it to the keyring
-gpg --keyserver keys.gnupg.net --recv 886DDD89
-gpg --export A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | sudo apt-key add -
+#gpg --keyserver keys.gnupg.net --recv 886DDD89
+#gpg --export A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | sudo apt-key add -
 
 # update tor from main repo
-sudo apt-get update > /dev/null
-sudo apt install -y \
-	tor \
-	obfs4proxy
+#sudo apt-get update > /dev/null
+#sudo apt install -y \
+#	tor \
+#	obfs4proxy
 
 # Fix Apparmor problem
-sudo sed -i '27s/PUx/ix/' /etc/apparmor.d/abstractions/tor
-sudo apparmor_parser -r -v /etc/apparmor.d/system_tor
+#sudo sed -i '27s/PUx/ix/' /etc/apparmor.d/abstractions/tor
+#sudo apparmor_parser -r -v /etc/apparmor.d/system_tor
 
 # update finished
 echo "Congratulations!!! Your computer is using Tor. may run torbrowser-launcher now."
