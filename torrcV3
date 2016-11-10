@@ -1,3 +1,4 @@
 UseBridges 1
-ClientTransportPlugin obfs3 exec /usr/bin/obfsproxy --managed
 Bridge obfs3 ...
+ClientTransportPlugin obfs3 exec /usr/bin/obfsproxy --managed
+
