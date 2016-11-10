@@ -5,8 +5,8 @@ echo -e "Traktor v1.3\nTor will be automatically installed and configured…\n\n
 
 # Install Packages
 sudo pacman -Sy > /dev/null
-yaourt -S obfs4proxy tor-browser-en
-sudo pacman -S	tor  polipo dnscrypt-proxy  
+yaourt -S  tor-browser-en
+sudo pacman -S	tor obfsproxy polipo dnscrypt-proxy  
 
 # Write Bridge
 sudo wget https://ubuntu-ir.github.io/traktor/torrc -O /etc/tor/torrc > /dev/null
@@ -32,7 +32,8 @@ gsettings set org.gnome.system.proxy ignore-hosts "['localhost', '127.0.0.0/8', 
 
 # Install Finish
 echo "Install Finished successfully…"
-
+systemctl start tor 1>/dev/null 2>&1
+systemctl enable tor 1>/dev/null 2>&1
 # Wait for tor to establish connection
 echo "Tor is trying to establish a connection. This may take long for some minutes. Please wait" | sudo tee <(systemctl status tor)
 bootstraped='n'
