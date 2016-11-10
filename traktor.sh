@@ -34,7 +34,7 @@ gsettings set org.gnome.system.proxy ignore-hosts "['localhost', '127.0.0.0/8', 
 echo "Install Finished successfully…"
 
 # Wait for tor to establish connection
-echo "Tor is trying to establish a connection. This may take long for some minutes. Please wait" | sudo tee /var/log/tor/log
+echo "Tor is trying to establish a connection. This may take long for some minutes. Please wait" | sudo tee <(systemctl status tor)
 bootstraped='n'
 sudo systemctl restart tor
 while [ $bootstraped == 'n' ]; do
