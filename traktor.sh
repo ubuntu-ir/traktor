@@ -22,7 +22,7 @@ proxyAddress = "::0"        # both IPv4 and IPv6
 allowedClients = 127.0.0.1
 socksParentProxy = "localhost:9050"
 socksProxyType = socks5' | sudo tee /etc/polipo/config > /dev/null
-sudo service polipo restart
+sudo systemctl restart polipo
 
 # Set IP and Port on HTTP
 gsettings set org.gnome.system.proxy mode 'manual'
@@ -36,9 +36,9 @@ echo "Install Finished successfully…"
 # Wait for tor to establish connection
 echo "Tor is trying to establish a connection. This may take long for some minutes. Please wait" | sudo tee /var/log/tor/log
 bootstraped='n'
-sudo service tor restart
+sudo systemctl restart tor
 while [ $bootstraped == 'n' ]; do
-	if sudo cat /var/log/tor/log | grep "Bootstrapped 100%: Done"; then
+	if sudo grep "Bootstrapped 100%: Done" <(systemctl status tor); then
 		bootstraped='y'
 	else
 		sleep 1
