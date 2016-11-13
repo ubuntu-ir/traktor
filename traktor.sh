@@ -5,7 +5,7 @@ echo -e "Traktor v1.3\nTor will be automatically installed and configured…\n\n
 
 # Install Packages
 sudo pacman -Sy > /dev/null
-yaourt -S  tor-browser-en
+yaourt -S  tor-browser-en-ir
 sudo pacman -S	tor obfsproxy polipo dnscrypt-proxy  
 
 # Write Bridge
