@@ -24,22 +24,31 @@ socksParentProxy = "localhost:9050"
 socksProxyType = socks5' | sudo tee /etc/polipo/config > /dev/null
 sudo systemctl restart polipo
 
-# Set IP and Port on HTTP
-gsettings set org.gnome.system.proxy mode 'manual'
-gsettings set org.gnome.system.proxy.http host 127.0.0.1
-gsettings set org.gnome.system.proxy.http port 8123
-gsettings set org.gnome.system.proxy ignore-hosts "['localhost', '127.0.0.0/8', '::1', '192.168.0.0/16', '10.0.0.0/8', '172.16.0.0/12']"
+echo "Do you want to use tor on whole network? [y/N]"
+echo "If press No you have to manually set proxy to SOCKS5 127.0.0.1:9050 or HTTP 127.0.0.1:8123"
+
+read -n 1 SELECT
+if [ "$SELECT" = "Y" -o "$SELECT" = "y" ]
+then
+	# Set IP and Port on HTTP and SOCKS
+	gsettings set org.gnome.system.proxy mode 'manual'
+	gsettings set org.gnome.system.proxy.http host 127.0.0.1
+	gsettings set org.gnome.system.proxy.http port 8123
+	gsettings set org.gnome.system.proxy.socks host 127.0.0.1
+	gsettings set org.gnome.system.proxy.socks port 9050
+	gsettings set org.gnome.system.proxy ignore-hosts "['localhost', '127.0.0.0/8', '::1', '192.168.0.0/16', '10.0.0.0/8', '172.16.0.0/12']"
+fi
 
 # Install Finish
 echo "Install Finished successfully…"
 systemctl start tor 1>/dev/null 2>&1
 systemctl enable tor 1>/dev/null 2>&1
 # Wait for tor to establish connection
-echo "Tor is trying to establish a connection. This may take long for some minutes. Please wait" | sudo tee <(systemctl status tor)
+echo "Tor is trying to establish a connection. This may take long for some minutes. Please wait" | tee <(systemctl status tor)
 bootstraped='n'
 sudo systemctl restart tor
 while [ $bootstraped == 'n' ]; do
-	if sudo grep "Bootstrapped 100%: Done" <(systemctl status tor); then
+	if grep "Bootstrapped 100%: Done" <(systemctl status tor); then
 		bootstraped='y'
 	else
 		sleep 1
