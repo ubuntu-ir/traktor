@@ -44,11 +44,11 @@ echo "Install Finished successfully…"
 systemctl start tor 1>/dev/null 2>&1
 systemctl enable tor 1>/dev/null 2>&1
 # Wait for tor to establish connection
-echo "Tor is trying to establish a connection. This may take long for some minutes. Please wait" | sudo tee <(systemctl status tor)
+echo "Tor is trying to establish a connection. This may take long for some minutes. Please wait" | tee <(systemctl status tor)
 bootstraped='n'
 sudo systemctl restart tor
 while [ $bootstraped == 'n' ]; do
-	if sudo grep "Bootstrapped 100%: Done" <(systemctl status tor); then
+	if grep "Bootstrapped 100%: Done" <(systemctl status tor); then
 		bootstraped='y'
 	else
 		sleep 1
