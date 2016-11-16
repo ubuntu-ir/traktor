@@ -43,7 +43,7 @@ then
 	gsettings set org.gnome.system.proxy ignore-hosts "['localhost', '127.0.0.0/8', '::1', '192.168.0.0/16', '10.0.0.0/8', '172.16.0.0/12']"
 fi
 # Install Finish
-echo "Install Finished successfully…"
+echo -e "\nInstall Finished successfully…"
 sudo systemctl start tor 1>/dev/null 2>&1
 sudo systemctl enable tor 1>/dev/null 2>&1
 # Wait for tor to establish connection
