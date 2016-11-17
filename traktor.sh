@@ -11,4 +11,4 @@ elif apt list --installed &> /dev/null ;then
 #    echo "debian"
 else
     echo "Your distro is neither archbase nor debianbase So, The script is not going to work in your distro."
-fi
+fi  
