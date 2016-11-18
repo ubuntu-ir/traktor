@@ -10,7 +10,8 @@ Do NOT expect anonymity using this method. Polipo is an http proxy and can leak 
     wget https://github.com/ubuntu-ir/traktor/archive/master.zip -O traktor.zip
     unzip traktor.zip && cd traktor-master
     ./traktor.sh
-
+## Install from AUR (ArchLinux only)
+    yaourt -S traktor
 
 ## Remote install
 type in bash:
