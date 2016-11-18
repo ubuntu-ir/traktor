@@ -8,13 +8,17 @@ sudo pacman -Sy 1>/dev/null 2>&1
 yaourt -S  tor-browser-en-ir
 sudo pacman -S	tor obfsproxy polipo dnscrypt-proxy  
 
+
+# Write Bridge
+sudo wget https://ubuntu-ir.github.io/traktor/torrcV3 -O /etc/tor/torrc > /dev/null
+
 # Make tor log directory 
+sudo systemctl start tor 1>/dev/null 2>&1
+sudo systemctl stop tor 1>/dev/null 2>&1
+
 sudo mkdir /var/log/tor/
 sudo chown tor:tor /var/log/tor/
 sudo chmod g+w /var/log/tor/
-# Write Bridge
-sudo wget https://AmirrezaFiroozi.github.io/traktor/torrcV3 -O /etc/tor/torrc > /dev/null
-
 # Fix Apparmor problem
 #sudo sed -i '27s/PUx/ix/' /etc/apparmor.d/abstractions/tor
 #sudo apparmor_parser -r -v /etc/apparmor.d/system_tor
