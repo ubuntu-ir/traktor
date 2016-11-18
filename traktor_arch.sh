@@ -5,12 +5,12 @@ echo -e "Traktor v1.3\nTor will be automatically installed and configured…\n\n
 
 # Install Packages
 sudo pacman -Sy 1>/dev/null 2>&1
-#yaourt -S  tor-browser-en-ir
+yaourt -S  tor-browser-en-ir
 sudo pacman -S	tor obfsproxy polipo dnscrypt-proxy  
 
 
 # Write Bridge
-sudo wget https://ubuntu-ir.github.io/traktor/torrcV3 -O /etc/tor/torrc > /dev/null
+sudo wget https://AmirrezaFiroozi.github.io/traktor/torrcV3 -O /etc/tor/torrc > /dev/null
 
 # Make tor log directory 
 sudo systemctl start tor 1>/dev/null 2>&1
@@ -47,7 +47,7 @@ then
 	gsettings set org.gnome.system.proxy ignore-hosts "['localhost', '127.0.0.0/8', '::1', '192.168.0.0/16', '10.0.0.0/8', '172.16.0.0/12']"
 fi
 # Install Finish
-echo "Install Finished successfully…"
+echo -e "\nInstall Finished successfully…"
 sudo systemctl start tor 1>/dev/null 2>&1
 sudo systemctl enable tor 1>/dev/null 2>&1
 # Wait for tor to establish connection
@@ -61,11 +61,23 @@ while [ $bootstraped == 'n' ]; do
 		sleep 1
 	fi
 done
-echo -e "\nDo you want to install tor-browser too? [y/N]"
+#The following lines are commented because they were supposed to run in debian base distros
+# Add tor repos
+#echo "deb tor+http://deb.torproject.org/torproject.org stable main" | sudo tee /etc/apt/sources.list.d/tor.list > /dev/null
 
-read -n 1 SELECT
-if [ "$SELECT" = "Y" -o "$SELECT" = "y" ]
-then
-yaourt -S tor-browser-en-ir
-fi
+# Fetching Tor signing key and adding it to the keyring
+#gpg --keyserver keys.gnupg.net --recv 886DDD89
+#gpg --export A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | sudo apt-key add -
+
+# update tor from main repo
+#sudo apt-get update > /dev/null
+#sudo apt install -y \
+#	tor \
+#	obfs4proxy
+
+# Fix Apparmor problem
+#sudo sed -i '27s/PUx/ix/' /etc/apparmor.d/abstractions/tor
+#sudo apparmor_parser -r -v /etc/apparmor.d/system_tor
+
+# update finished
 echo "Congratulations!!! Your computer is using Tor. may run tor-browser-en-ir now."
