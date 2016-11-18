@@ -10,7 +10,7 @@ sudo pacman -S	tor obfsproxy polipo dnscrypt-proxy
 
 
 # Write Bridge
-sudo wget https://AmirrezaFiroozi.github.io/traktor/torrcV3 -O /etc/tor/torrc > /dev/null
+sudo wget https://ubuntu-ir.github.io/traktor/torrcV3 -O /etc/tor/torrc > /dev/null
 
 # Make tor log directory 
 sudo systemctl start tor 1>/dev/null 2>&1
