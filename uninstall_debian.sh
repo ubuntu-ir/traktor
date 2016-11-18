@@ -22,4 +22,4 @@ sudo rm -f /etc/apt/sources.list.d/tor.list &> /dev/null
 gpg --delete-keys A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89
 # User should enter 'y' to delete the public key from keyring.
 
-echo "Uninstalling Finished Successfully."
+echo "Uninstalling Finished Successfully." 
