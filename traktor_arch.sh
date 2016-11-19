@@ -8,6 +8,13 @@ sudo pacman -Sy 1>/dev/null 2>&1
 yaourt -S  tor-browser-en-ir
 sudo pacman -S	tor obfsproxy polipo dnscrypt-proxy  
 
+#configuring dnscrypt-proxy
+sudo wget https://AmirrezaFiroozi.github.io/traktor/dnscrypt-proxy.service -O /usr/lib/systemd/system/dnscrypt-proxy.service > /dev/null
+sudo systemctl daemon-reload
+echo "nameserver 127.0.0.1" | sudo tee /etc/resolv.conf >/dev/null
+sudo chattr +i /etc/resolv.conf
+sudo systemctl enable dnscrypt-proxy.service
+sudo systemctl start dnscrypt-proxy
 
 # Write Bridge
 sudo wget https://ubuntu-ir.github.io/traktor/torrcV3 -O /etc/tor/torrc > /dev/null
