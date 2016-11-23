@@ -6,7 +6,7 @@ echo -e "Traktor v1.3\nTor will be automatically installed and configured…\n\n
 # Install Packages
 sudo pacman -Sy 1>/dev/null 2>&1
 yaourt -S  tor-browser-en-ir
-sudo pacman -S	tor obfsproxy polipo dnscrypt-proxy  
+sudo pacman -S	tor obfsproxy polipo dnscrypt-proxy torsocks
 
 #configuring dnscrypt-proxy
 sudo wget https://AmirrezaFiroozi.github.io/traktor/dnscrypt-proxy.service -O /usr/lib/systemd/system/dnscrypt-proxy.service > /dev/null
