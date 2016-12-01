@@ -20,3 +20,11 @@ elif apt list --installed &> /dev/null ;then
 else
     echo "Your distro is neither archbase nor debianbase So, The script is not going to work in your distro."
 fi
+if [ ! -f ./traktor.sh ]; then # if then -> detect remote install
+  if [ -f ./traktor_arch.sh ]; then
+    rm ./traktor_arch.sh
+  fi
+  if [ -f ./traktor_debian.sh ]; then
+    rm ./traktor_debian.sh
+  fi
+fi
