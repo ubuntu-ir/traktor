@@ -7,7 +7,7 @@ To do this, just run 'traktor.sh' file in a supported shell like bash and watch 
 Do NOT expect anonymity using this method. Polipo is an http proxy and can leak data. If you need anonymity or strong privacy, manually run torbrowser-launcher after installing traktor and use it.
 
 ## Install
-    sudo apt install python-gi
+    sudo apt install python-gi (Optional, for having a graphical indicator)
     wget https://github.com/ubuntu-ir/traktor/archive/master.zip -O traktor.zip
     unzip traktor.zip && cd traktor-master
     ./traktor.sh
