@@ -27,7 +27,7 @@ gsettings set org.gnome.system.proxy.http port 8123
 gsettings set org.gnome.system.proxy ignore-hosts "['localhost', '127.0.0.0/8', '::1', '192.168.0.0/16', '10.0.0.0/8', '172.16.0.0/12']"
 
 # wait for tor to establish connection
-echo "Tor is trying to establish a connection. This may take long for some minutes. Please wait" > /var/log/tor/log
+echo "Tor is trying to establish a connection. This may take long for some minutes. Please wait...\nYou can see the log by running '# tail -f /var/log/tor/log' in another window." | tee /var/log/tor/log
 bootstraped='n'
 service tor restart
 while [ $bootstraped == 'n' ]; do
