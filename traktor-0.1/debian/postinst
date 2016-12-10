@@ -1,0 +1,46 @@
+#!/bin/bash
+
+set -e
+
+# write bridges
+wget https://ubuntu-ir.github.io/traktor/torrc -O /etc/tor/torrc
+
+# fix apparmor problem
+sed -i '27s/PUx/ix/' /etc/apparmor.d/abstractions/tor
+apparmor_parser -r -v /etc/apparmor.d/system_tor
+
+# write polipo config
+#TODO move to file
+echo 'logSyslog = true
+logFile = /var/log/polipo/polipo.log
+proxyAddress = "::0"        # both IPv4 and IPv6
+allowedClients = 127.0.0.1
+socksParentProxy = "localhost:9050"
+socksProxyType = socks5' > /etc/polipo/config
+service polipo restart
+
+# set ip and port on HTTP
+#TODO move to toggle command
+gsettings set org.gnome.system.proxy mode 'manual'
+gsettings set org.gnome.system.proxy.http host 127.0.0.1
+gsettings set org.gnome.system.proxy.http port 8123
+gsettings set org.gnome.system.proxy ignore-hosts "['localhost', '127.0.0.0/8', '::1', '192.168.0.0/16', '10.0.0.0/8', '172.16.0.0/12']"
+
+# wait for tor to establish connection
+echo "Tor is trying to establish a connection. This may take long for some minutes. Please wait" > /var/log/tor/log
+bootstraped='n'
+service tor restart
+while [ $bootstraped == 'n' ]; do
+	if cat /var/log/tor/log | grep "Bootstrapped 100%: Done"; then
+		bootstraped='y'
+	else
+		sleep 1
+	fi
+done
+
+# add tor repos
+echo "deb tor+http://deb.torproject.org/torproject.org stable main" > /etc/apt/sources.list.d/tor.list
+
+# fetching tor signing key and adding it to the keyring
+gpg --keyserver keys.gnupg.net --recv 886DDD89
+gpg --export A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | apt-key add -
