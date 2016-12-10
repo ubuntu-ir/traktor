@@ -1,0 +1,12 @@
+Source: traktor
+Maintainer: Danial Behzadi <dani.behzi@ubuntu.com>
+Section: net
+Priority: optional
+Standards-Version: 3.9.2
+Build-Depends: debhelper (>=9)
+
+Package: traktor
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, tor, obfs4proxy, polipo, dnscrypt-proxy, torbrowser-launcher, apt-transport-tor
+Description: Automatic TOR installer
+ Traktor Automaticically installs and config tor and some useful network-related stuff.
