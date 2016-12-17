@@ -36,8 +36,8 @@ MSG_FAILUERE = "Something Went Wrong !\n"
 cwd = os.path.abspath(os.path.dirname(__file__))
 
 #Icon pathes
-ICON_TOR_ON = os.path.join(cwd, '.traktor_gui_panel/photos/tor_proxy_mode.svg')
-ICON_TOR_OFF = os.path.join(cwd, '.traktor_gui_panel/photos/tor_normal_mode.svg')
+ICON_TOR_ON = os.path.join(cwd, 'traktor_gui_panel/photos/tor_proxy_mode.svg')
+ICON_TOR_OFF = os.path.join(cwd, 'traktor_gui_panel/photos/tor_normal_mode.svg')
 
 
 
@@ -54,11 +54,11 @@ def main(indicator):
 
 def build_menu():
     menu = gtk.Menu()
-    item_nm = gtk.MenuItem('Normal Mode (Browser)')
+    item_nm = gtk.MenuItem('Disable Proxy')
     item_nm.connect('activate', nm)
-    item_np = gtk.MenuItem('Network Proxy')
+    item_np = gtk.MenuItem('Enable Proxy')
     item_np.connect('activate', np)
-    item_rl = gtk.MenuItem('Reload')
+    item_rl = gtk.MenuItem('Restart Tor & Polipo')
     item_rl.connect('activate', rl)
     item_quit = gtk.MenuItem('Quit')
     item_quit.connect('activate', quit)
