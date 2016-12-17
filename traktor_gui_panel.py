@@ -36,8 +36,8 @@ MSG_FAILUERE = "Something Went Wrong !\n"
 cwd = os.path.abspath(os.path.dirname(__file__))
 
 #Icon pathes
-ICON_TOR_ON = os.path.join(cwd, '.traktor_gui_panel/photos/tor_proxy_mode.svg')
-ICON_TOR_OFF = os.path.join(cwd, '.traktor_gui_panel/photos/tor_normal_mode.svg')
+ICON_TOR_ON = os.path.join(cwd, 'traktor_gui_panel/photos/tor_proxy_mode.svg')
+ICON_TOR_OFF = os.path.join(cwd, 'traktor_gui_panel/photos/tor_normal_mode.svg')
 
 
 
