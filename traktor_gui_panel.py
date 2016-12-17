@@ -32,9 +32,13 @@ MSG_TOR_ACTIVE_SUCCESS = "TOR Activated Successfully"
 MSG_SWITCH_TO_NORMAL = "TOR Switched To Normal Mode Successfully"
 MSG_FAILUERE = "Something Went Wrong !\n"
 
+#Current Working Directory
+cwd = os.path.abspath(os.path.dirname(__file__))
+
 #Icon pathes
-ICON_TOR_ON = '.traktor_gui_panel/photos/tor_np.svg'
-ICON_TOR_OFF = '.traktor_gui_panel/photos/tor_nm.svg';
+ICON_TOR_ON = os.path.join(cwd, '.traktor_gui_panel/photos/tor_proxy_mode.svg')
+ICON_TOR_OFF = os.path.join(cwd, '.traktor_gui_panel/photos/tor_normal_mode.svg')
+
 
 
 if PROXY_VALUE_MANUAL in ___(GSETTINGS_GET_PROXY_SCHEMA).read():
@@ -75,24 +79,24 @@ def fetch(proxy_value, icon_path, msg1):
         return MSG_FAILUERE + msg
 
 
-def fetch_nm():
+def fetch_normal_mode():
     return fetch(PROXY_VALUE_NONE, ICON_TOR_OFF, MSG_SWITCH_TO_NORMAL)
 
-def fetch_np():
+def fetch_proxy_mode():
     return fetch(PROXY_VALUE_MANUAL, ICON_TOR_ON, MSG_TOR_ACTIVE_SUCCESS)
 
-def fetch_rl():
+def fetch_reload():
     return fetch(PROXY_VALUE_MANUAL, ICON_TOR_ON, MSG_TOR_RELOAD_SUCCESS )
 
 
 def nm(_):
-    notify.Notification.new("<b>Status</b>", fetch_nm(), None).show()
+    notify.Notification.new("<b>Status</b>", fetch_normal_mode(), None).show()
 
 def np(_):
-    notify.Notification.new("<b>Status</b>", fetch_np(), None).show()
+    notify.Notification.new("<b>Status</b>", fetch_proxy_mode(), None).show()
 
 def rl(_):
-    notify.Notification.new("<b>Status</b>", fetch_rl(), None).show()
+    notify.Notification.new("<b>Status</b>", fetch_reload(), None).show()
 
 def quit(_):
     notify.uninit()
