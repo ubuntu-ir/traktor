@@ -16,10 +16,35 @@ from os import popen as ___
 
 APPINDICATOR_ID = 'traktor'
 
-if 'manual' in ___('gsettings get org.gnome.system.proxy mode').read():
-    indicator = appindicator.Indicator.new(APPINDICATOR_ID, os.path.abspath('.traktor_gui_panel/photos/tor_np.svg'),appindicator.IndicatorCategory.SYSTEM_SERVICES)
+#Commands
+GSETTINGS_SET_PROXY_SCHEMA = 'gsettings set org.gnome.system.proxy mode '
+GSETTINGS_GET_PROXY_SCHEMA = 'gsettings get org.gnome.system.proxy mode '
+RESTART_TOR = 'sudo systemctl restart tor.service'
+RESTART_POLIPO = 'service polipo restart'
+
+#Proxy Options (gsettings values)
+PROXY_VALUE_NONE = 'none'
+PROXY_VALUE_MANUAL = 'manual'
+
+#Messages
+MSG_TOR_RELOAD_SUCCESS = "TOR Reloaded Successfully"
+MSG_TOR_ACTIVE_SUCCESS = "TOR Activated Successfully"
+MSG_SWITCH_TO_NORMAL = "TOR Switched To Normal Mode Successfully"
+MSG_FAILUERE = "Something Went Wrong !\n"
+
+#Current Working Directory
+cwd = os.path.abspath(os.path.dirname(__file__))
+
+#Icon pathes
+ICON_TOR_ON = os.path.join(cwd, '.traktor_gui_panel/photos/tor_proxy_mode.svg')
+ICON_TOR_OFF = os.path.join(cwd, '.traktor_gui_panel/photos/tor_normal_mode.svg')
+
+
+
+if PROXY_VALUE_MANUAL in ___(GSETTINGS_GET_PROXY_SCHEMA).read():
+    indicator = appindicator.Indicator.new(APPINDICATOR_ID, os.path.abspath(ICON_TOR_ON),appindicator.IndicatorCategory.SYSTEM_SERVICES)
 else:
-    indicator = appindicator.Indicator.new(APPINDICATOR_ID, os.path.abspath('.traktor_gui_panel/photos/tor_nm.svg'),appindicator.IndicatorCategory.SYSTEM_SERVICES)
+    indicator = appindicator.Indicator.new(APPINDICATOR_ID, os.path.abspath(ICON_TOR_OFF),appindicator.IndicatorCategory.SYSTEM_SERVICES)
 
 def main(indicator):
     indicator.set_status(appindicator.IndicatorStatus.ACTIVE)
@@ -44,38 +69,34 @@ def build_menu():
     menu.show_all()
     return menu
 
-def fetch_nm():
-    msg = ___("gsettings set org.gnome.system.proxy mode 'none'; sudo systemctl restart tor.service && service polipo restart").read()
-    if msg == "":
-        indicator.set_icon(str(os.path.abspath('.traktor_gui_panel/photos/tor_nm.svg')))
-        return "TOR switch to normal mode successfully" 
-    else:
-        return "Something went wrong..!\n" + msg
 
-def fetch_np():
-    msg = ___("gsettings set org.gnome.system.proxy mode 'manual'; sudo systemctl restart tor.service && service polipo restart").read()
+def fetch(proxy_value, icon_path, msg1):
+    msg = ___(GSETTINGS_SET_PROXY_SCHEMA + proxy_value + ";" + RESTART_TOR +"&&" + RESTART_POLIPO).read()
     if msg == "":
-        indicator.set_icon(str(os.path.abspath('.traktor_gui_panel/photos/tor_np.svg')))
-        return "TOR activated successfully"
+        indicator.set_icon(str(os.path.abspath(icon_path)))
+        return msg1
     else:
-        return "Something went wrong..!\n" + msg 
+        return MSG_FAILUERE + msg
 
-def fetch_rl():
-    msg = ___("gsettings set org.gnome.system.proxy mode 'manual'; sudo systemctl restart tor.service && service polipo restart").read()
-    if msg == "":
-        indicator.set_icon(str(os.path.abspath('.traktor_gui_panel/photos/tor_np.svg')))
-        return "TOR reload successfully"
-    else:
-        return "Something went wrong..!\n" + msg 
+
+def fetch_normal_mode():
+    return fetch(PROXY_VALUE_NONE, ICON_TOR_OFF, MSG_SWITCH_TO_NORMAL)
+
+def fetch_proxy_mode():
+    return fetch(PROXY_VALUE_MANUAL, ICON_TOR_ON, MSG_TOR_ACTIVE_SUCCESS)
+
+def fetch_reload():
+    return fetch(PROXY_VALUE_MANUAL, ICON_TOR_ON, MSG_TOR_RELOAD_SUCCESS )
+
 
 def nm(_):
-    notify.Notification.new("<b>Status</b>", fetch_nm(), None).show()
+    notify.Notification.new("<b>Status</b>", fetch_normal_mode(), None).show()
 
 def np(_):
-    notify.Notification.new("<b>Status</b>", fetch_np(), None).show()
+    notify.Notification.new("<b>Status</b>", fetch_proxy_mode(), None).show()
 
 def rl(_):
-    notify.Notification.new("<b>Status</b>", fetch_rl(), None).show()
+    notify.Notification.new("<b>Status</b>", fetch_reload(), None).show()
 
 def quit(_):
     notify.uninit()
