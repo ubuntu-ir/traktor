@@ -67,5 +67,25 @@ sudo apt install -y \
 sudo sed -i '27s/PUx/ix/' /etc/apparmor.d/abstractions/tor
 sudo apparmor_parser -r -v /etc/apparmor.d/system_tor
 
+# Traktor GUI Panel 
+mkdir $HOME/.traktor_gui_panel
+mv traktor-master/traktor_gui_panel.py $HOME/.traktor_gui_panel 
+mv traktor_gui_panel/icons $HOME/.traktor_gui_panel/
+
+sudo touch /usr/share/applications/traktor-gui-panel.desktop 
+echo "[Desktop Entry]
+Version=1.0
+Name=Traktor GUI Panel
+Name[fa]=تراکتور پنل گرافیکی
+GenericName:Traktor Panel
+GenericName[fa]=تراکتور پنل
+Comment=Traktor GUI Panel
+Comment[fa]=تراکتور پنل گرافیکی
+Exec=$HOME/.traktor_gui_panel/traktor_gui_panel.py
+Terminal=false Type=Application
+Categories=Network;Application;
+Icon=$HOME/.traktor_gui_panel/icons/tor.png
+Keywords=Tor;Browser;Proxy;VPN;Internet;Web" | sudo tee /usr/share/applications/traktor-gui-panel.desktop > /dev/null
+
 # update finished
 echo "Congratulations!!! Your computer is using Tor. may run torbrowser-launcher now."
