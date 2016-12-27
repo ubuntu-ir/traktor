@@ -69,7 +69,7 @@ sudo apparmor_parser -r -v /etc/apparmor.d/system_tor
 
 # Traktor GUI Panel 
 mkdir $HOME/.traktor_gui_panel
-mv traktor-master/traktor_gui_panel.py $HOME/.traktor_gui_panel 
+mv traktor_gui_panel.py $HOME/.traktor_gui_panel 
 mv traktor_gui_panel/icons $HOME/.traktor_gui_panel/
 
 sudo touch /usr/share/applications/traktor-gui-panel.desktop 
