@@ -87,7 +87,7 @@ Terminal=false
 Type=Application
 Categories=Network;Application;
 Icon=$HOME/.traktor_gui_panel/icons/traktor.png
-Keywords=Tor;Browser;Proxy;VPN;Internet;Web" | sudo tee ~/Desktop/traktor-gui-panel.desktop > /dev/null
+Keywords=Tor;Browser;Proxy;VPN;Internet;Web" | sudo tee /usr/share/applications/traktor-gui-panel.desktop > /dev/null
 
 # update finished
 echo "Congratulations!!! Your computer is using Tor. may run torbrowser-launcher now."
