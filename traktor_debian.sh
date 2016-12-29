@@ -71,20 +71,22 @@ sudo apparmor_parser -r -v /etc/apparmor.d/system_tor
 mkdir $HOME/.traktor_gui_panel
 mv traktor_gui_panel.py $HOME/.traktor_gui_panel 
 mv traktor_gui_panel/icons $HOME/.traktor_gui_panel/
+chmod +x ~/.traktor_gui_panel/traktor_gui_panel.py
 
 sudo touch /usr/share/applications/traktor-gui-panel.desktop 
 echo "[Desktop Entry]
 Version=1.0
 Name=Traktor GUI Panel
 Name[fa]=تراکتور پنل گرافیکی
-GenericName:Traktor Panel
+GenericName=Traktor Panel
 GenericName[fa]=تراکتور پنل
 Comment=Traktor GUI Panel
 Comment[fa]=تراکتور پنل گرافیکی
 Exec=$HOME/.traktor_gui_panel/traktor_gui_panel.py
-Terminal=false Type=Application
+Terminal=false
+Type=Application
 Categories=Network;Application;
-Icon=$HOME/.traktor_gui_panel/icons/tor.png
+Icon=$HOME/.traktor_gui_panel/icons/traktor.png
 Keywords=Tor;Browser;Proxy;VPN;Internet;Web" | sudo tee /usr/share/applications/traktor-gui-panel.desktop > /dev/null
 
 # update finished
