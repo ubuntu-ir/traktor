@@ -24,8 +24,8 @@ RESTART_TOR = 'sudo systemctl restart tor.service'
 cwd = os.path.abspath(os.path.dirname(__file__))
 
 #Icon pathes
-ICON_TOR_ON = os.environ.get("HOME") + "/.traktor_gui_panel/icons/tor_normal_mode.svg"
-ICON_TOR_OFF = os.environ.get("HOME") + "/.traktor_gui_panel/icons/tor_disable_mode.svg"
+ICON_TOR_ON = os.environ.get("HOME") + "/.traktor_gui_panel/icons/tor_proxy_mode.svg"
+ICON_TOR_OFF = os.environ.get("HOME") + "/.traktor_gui_panel/icons/tor_normal_mode.svg"
 
 proxy = Gio.Settings.new("org.gnome.system.proxy")
 if (Gio.Settings.get_string(proxy, "mode")=="manual"):
