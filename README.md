@@ -14,7 +14,7 @@ Do NOT expect anonymity using this method. Polipo is an http proxy and can leak 
 ### ArchLinux
     yaourt -S traktor
 ### Other (May not be able to install yet)
-    sudo apt install python-gi #(Optional, for having a graphical indicator) ## Unity & XFCE
+    sudo apt install python-gi #(Optional, for having a graphical indicator) ## Unity & XFCE & Gnome
     sudo apt install gir1.2-appindicator3-0.1 #(Optional, for having a graphical indicator) ## Gnome
     wget https://github.com/ubuntu-ir/traktor/archive/master.zip -O traktor.zip
     unzip traktor.zip && cd traktor-master
