@@ -1,7 +1,7 @@
 #!/bin/bash
 clear
 
-echo -e "Traktor v1.3\nTor will be automatically installed and configured…\n\n"
+echo -e "Traktor v1.4\nTor will be automatically installed and configured…\n\n"
 
 # Install Packages
 sudo apt-get update > /dev/null
