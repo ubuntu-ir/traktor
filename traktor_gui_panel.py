@@ -24,14 +24,14 @@ RESTART_TOR = 'sudo systemctl restart tor.service'
 cwd = os.path.abspath(os.path.dirname(__file__))
 
 #Icon pathes
-ICON_TOR_ON = os.path.abspath(".traktor_gui_panel/icons/tor_proxy_mode.svg")
-ICON_TOR_OFF = os.path.abspath(".traktor_gui_panel/icons/tor_normal_mode.svg")
+ICON_TOR_ON = os.environ.get("HOME") + "/.traktor_gui_panel/icons/tor_proxy_mode.svg"
+ICON_TOR_OFF = os.environ.get("HOME") + "/.traktor_gui_panel/icons/tor_normal_mode.svg"
 
 proxy = Gio.Settings.new("org.gnome.system.proxy")
 if (Gio.Settings.get_string(proxy, "mode")=="manual"):
-    indicator = appindicator.Indicator.new(APPINDICATOR_ID, os.path.abspath(ICON_TOR_ON),appindicator.IndicatorCategory.SYSTEM_SERVICES)
+    indicator = appindicator.Indicator.new(APPINDICATOR_ID,ICON_TOR_ON,appindicator.IndicatorCategory.SYSTEM_SERVICES)
 else:
-    indicator = appindicator.Indicator.new(APPINDICATOR_ID, os.path.abspath(ICON_TOR_OFF),appindicator.IndicatorCategory.SYSTEM_SERVICES)
+    indicator = appindicator.Indicator.new(APPINDICATOR_ID,ICON_TOR_OFF,appindicator.IndicatorCategory.SYSTEM_SERVICES)
 
 def main(indicator):
     indicator.set_status(appindicator.IndicatorStatus.ACTIVE)
@@ -41,25 +41,48 @@ def main(indicator):
 
 def build_menu():
     menu = Gtk.Menu()
-    item_normal = Gtk.MenuItem('Disable Proxy')
-    item_normal.connect('activate', normal_mode)
-    item_proxy = Gtk.MenuItem('Enable Proxy')
+    
+    img_proxy = Gtk.Image()
+    img_proxy.set_from_file(os.environ.get("HOME") + "/.traktor_gui_panel/icons/tor_proxy_mode.svg")
+    item_proxy = Gtk.ImageMenuItem('Enable Proxy')
+    item_proxy.set_image(img_proxy)
+    item_proxy.set_always_show_image(True)
     item_proxy.connect('activate', proxy_mode)
-    item_start = Gtk.MenuItem('Restart Tor')
+    
+    img_normal = Gtk.Image()
+    img_normal.set_from_file(os.environ.get("HOME") + "/.traktor_gui_panel/icons/tor_normal_mode.svg")
+    item_normal = Gtk.ImageMenuItem('Disable Proxy')
+    item_normal.set_image(img_normal)
+    item_normal.set_always_show_image(True)
+    item_normal.connect('activate', normal_mode)
+
+    img_start = Gtk.Image()
+    img_start.set_from_file(os.environ.get("HOME") + "/.traktor_gui_panel/icons/tor_proxy_mode_reload.svg")
+    item_start = Gtk.ImageMenuItem('Restart Tor')
+    item_start.set_image(img_start)
+    item_start.set_always_show_image(True)
     item_start.connect('activate', restart)
-    item_quit = Gtk.MenuItem('Quit')
+    
+    img_quit = Gtk.Image()
+    img_quit.set_from_file()
+    item_quit = Gtk.ImageMenuItem('Quit')
+    item_quit.set_image(img_quit)
+    item_quit.set_always_show_image(True)
     item_quit.connect('activate', quit)
-    menu.append(item_normal)
+    
     menu.append(item_proxy)
+    menu.append(item_normal)
     menu.append(item_start)
     menu.append(item_quit)
+    
     menu.show_all()
+    
     return menu
 
 def normal_mode(_):
     proxy.set_string("mode", "none")
     indicator.set_icon(str(os.path.abspath(ICON_TOR_OFF)))
-    Notify.Notification.new("<b>"+Name+"</b>", T("Switched to normal mode"), None).show()
+    Notify.Notification.new(Name, T("Switched to normal mode"), None).show()
 
 def proxy_mode(_):
     proxy.set_string("mode", "manual")
@@ -71,14 +94,14 @@ def proxy_mode(_):
     socks.set_string("host", "127.0.0.1")
     socks.set_int("port", 9050)
     indicator.set_icon(str(os.path.abspath(ICON_TOR_ON)))
-    Notify.Notification.new("<b>"+Name+"</b>", T("Tor activated"), None).show()
+    Notify.Notification.new(Name, T("Tor activated"), None).show()
 
 def restart(_):
     msg = popen(RESTART_TOR).read() #TODO write in pure python
     if msg == "":
-        Notify.Notification.new("<b>"+Name+"</b>", T("Tor restarted"), None).show()
+        Notify.Notification.new(Name, T("Tor restarted"), None).show()
     else:
-        Notify.Notification.new("<b>"+Name+"</b>", T("Something went wrong. See the log"), None).show()
+        Notify.Notification.new(Name, T("Something went wrong. See the log"), None).show()
 
 def quit(_):
     Notify.uninit()
@@ -86,6 +109,5 @@ def quit(_):
 
 if __name__ == "__main__":
     signal.signal(signal.SIGINT, signal.SIG_DFL)
-
 
 main(indicator)
