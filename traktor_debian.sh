@@ -52,6 +52,7 @@ done
 
 # Add tor repos
 echo "deb tor+http://deb.torproject.org/torproject.org stable main" | sudo tee /etc/apt/sources.list.d/tor.list > /dev/null
+echo "deb tor+http://deb.torproject.org/torproject.org obfs4proxy main" | sudo tee -a /etc/apt/sources.list.d/tor.list > /dev/null
 
 # Fetching Tor signing key and adding it to the keyring
 gpg --keyserver keys.gnupg.net --recv 886DDD89
