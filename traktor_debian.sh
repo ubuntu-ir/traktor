@@ -8,7 +8,7 @@ sudo apt-get update > /dev/null
 sudo apt install -y \
 	tor \
 	obfs4proxy \
-	polipo \
+	privoxy \
 	dnscrypt-proxy \
 	torbrowser-launcher \
 	apt-transport-tor
@@ -20,19 +20,18 @@ sudo wget https://ubuntu-ir.github.io/traktor/torrc -O /etc/tor/torrc > /dev/nul
 sudo sed -i '27s/PUx/ix/' /etc/apparmor.d/abstractions/tor
 sudo apparmor_parser -r -v /etc/apparmor.d/system_tor
 
-# Write Polipo config
-echo 'logSyslog = true
-logFile = /var/log/polipo/polipo.log
-proxyAddress = "::0"        # both IPv4 and IPv6
-allowedClients = 127.0.0.1
-socksParentProxy = "localhost:9050"
-socksProxyType = socks5' | sudo tee /etc/polipo/config > /dev/null
-sudo service polipo restart
+# Write Privoxy config
+sudo perl -i -pe 's/^listen-address/#$&/' /etc/privoxy/config
+echo 'logdir /var/log/privoxy
+listen-address  0.0.0.0:8118
+forward-socks5   /               127.0.0.1:9050 .' | sudo tee -a /etc/privoxy/config > /dev/null
+sudo systemctl restart privoxy.service
+
 
 # Set IP and Port on HTTP
 gsettings set org.gnome.system.proxy mode 'manual'
 gsettings set org.gnome.system.proxy.http host 127.0.0.1
-gsettings set org.gnome.system.proxy.http port 8123
+gsettings set org.gnome.system.proxy.http port 8118
 gsettings set org.gnome.system.proxy ignore-hosts "['localhost', '127.0.0.0/8', '::1', '192.168.0.0/16', '10.0.0.0/8', '172.16.0.0/12']"
 
 # Install Finish
