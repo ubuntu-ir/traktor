@@ -6,7 +6,7 @@ echo -e "Traktor v1.3\nTor will be automatically installed and configured…\n\n
 # Install Packages
 sudo pacman -Sy 1>/dev/null 2>&1
 yaourt -S  tor-browser-en-ir
-sudo pacman -S	tor obfsproxy polipo dnscrypt-proxy torsocks
+sudo pacman -S	tor obfsproxy privoxy dnscrypt-proxy torsocks
 
 #configuring dnscrypt-proxy
 sudo wget https://AmirrezaFiroozi.github.io/traktor/dnscrypt-proxy.service -O /usr/lib/systemd/system/dnscrypt-proxy.service > /dev/null
@@ -30,17 +30,23 @@ sudo chmod g+w /var/log/tor/
 #sudo sed -i '27s/PUx/ix/' /etc/apparmor.d/abstractions/tor
 #sudo apparmor_parser -r -v /etc/apparmor.d/system_tor
 
-# Write Polipo config
-echo 'logSyslog = true
-logFile = /var/log/polipo/polipo.log
-proxyAddress = "::0"        # both IPv4 and IPv6
-allowedClients = 127.0.0.1
-socksParentProxy = "localhost:9050"
-socksProxyType = socks5' | sudo tee /etc/polipo/config > /dev/null
-sudo systemctl restart polipo
+# Write Privoxy config
+sudo perl -i -pe 's/^listen-address/#$&/' /etc/privoxy/config
+echo 'logdir /var/log/privoxy
+listen-address  0.0.0.0:8118
+forward-socks4a / 127.0.0.1:9050 .
+forward-socks5t             /     127.0.0.1:9050 .
+forward-socks5   /               127.0.0.1:9050 .
+forward         192.168.*.*/     .
+forward            10.*.*.*/     .
+forward           127.*.*.*/     .
+forward           localhost/     .' | sudo tee -a /etc/privoxy/config > /dev/null
+sudo systemctl enable privoxy
+sudo systemctl restart privoxy.service
+
 
 echo "Do you want to use tor on whole network? [y/N]"
-echo "If press No you have to manually set proxy to SOCKS5 127.0.0.1:9050 or HTTP 127.0.0.1:8123"
+echo "If press No you have to manually set proxy to SOCKS5 127.0.0.1:9050 or HTTP 127.0.0.1:8118"
 
 read -n 1 SELECT
 if [ "$SELECT" = "Y" -o "$SELECT" = "y" ]
@@ -48,7 +54,7 @@ then
 	# Set IP and Port on HTTP and SOCKS
 	gsettings set org.gnome.system.proxy mode 'manual'
 	gsettings set org.gnome.system.proxy.http host 127.0.0.1
-	gsettings set org.gnome.system.proxy.http port 8123
+	gsettings set org.gnome.system.proxy.http port 8118
 	gsettings set org.gnome.system.proxy.socks host 127.0.0.1
 	gsettings set org.gnome.system.proxy.socks port 9050
 	gsettings set org.gnome.system.proxy ignore-hosts "['localhost', '127.0.0.0/8', '::1', '192.168.0.0/16', '10.0.0.0/8', '172.16.0.0/12']"
