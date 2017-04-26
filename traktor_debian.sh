@@ -38,6 +38,8 @@ sudo systemctl restart privoxy.service
 gsettings set org.gnome.system.proxy mode 'manual'
 gsettings set org.gnome.system.proxy.http host 127.0.0.1
 gsettings set org.gnome.system.proxy.http port 8118
+gsettings set org.gnome.system.proxy.socks host 127.0.0.1
+gsettings set org.gnome.system.proxy.socks port 9050
 gsettings set org.gnome.system.proxy ignore-hosts "['localhost', '127.0.0.0/8', '::1', '192.168.0.0/16', '10.0.0.0/8', '172.16.0.0/12']"
 
 # Install Finish
