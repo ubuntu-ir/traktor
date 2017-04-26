@@ -25,7 +25,7 @@ sudo perl -i -pe 's/^listen-address/#$&/' /etc/privoxy/config
 echo 'logdir /var/log/privoxy
 listen-address  0.0.0.0:8118
 forward-socks5   /               127.0.0.1:9050 .' | sudo tee -a /etc/privoxy/config > /dev/null
-sudo systemctl restart privoxy.service
+sudo service privoxy restart
 
 
 # Set IP and Port on HTTP
