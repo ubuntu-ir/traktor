@@ -24,8 +24,16 @@ sudo apparmor_parser -r -v /etc/apparmor.d/system_tor
 sudo perl -i -pe 's/^listen-address/#$&/' /etc/privoxy/config
 echo 'logdir /var/log/privoxy
 listen-address  0.0.0.0:8118
-forward-socks5   /               127.0.0.1:9050 .' | sudo tee -a /etc/privoxy/config > /dev/null
-sudo service privoxy restart
+forward-socks4a / 127.0.0.1:9050 .
+forward-socks5t             /     127.0.0.1:9050 .
+forward-socks5   /               127.0.0.1:9050 .
+forward         192.168.*.*/     .
+forward            10.*.*.*/     .
+forward           127.*.*.*/     .
+forward           localhost/     .' | sudo tee -a /etc/privoxy/config > /dev/null
+sudo systemctl enable privoxy
+sudo systemctl restart privoxy.service
+
 
 
 # Set IP and Port on HTTP
