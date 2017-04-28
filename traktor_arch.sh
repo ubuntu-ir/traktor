@@ -16,6 +16,10 @@ sudo chattr +i /etc/resolv.conf
 sudo systemctl enable dnscrypt-proxy.service
 sudo systemctl start dnscrypt-proxy
 
+if [ -f "/etc/tor/torrc" ]; then
+    echo "Backing up the old torrc to '/etc/tor/torrc.traktor-backup'..."
+    sudo cp /etc/tor/torrc /etc/tor/torrc.traktor-backup
+fi
 # Write Bridge
 sudo wget https://ubuntu-ir.github.io/traktor/torrcV3 -O /etc/tor/torrc > /dev/null
 

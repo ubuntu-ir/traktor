@@ -13,6 +13,11 @@ sudo apt install -y \
 	torbrowser-launcher \
 	apt-transport-tor
 
+if [ -f "/etc/tor/torrc" ]; then
+    echo "Backing up the old torrc to '/etc/tor/torrc.traktor-backup'..."
+    sudo cp /etc/tor/torrc /etc/tor/torrc.traktor-backup
+fi
+
 # Write Bridge
 sudo wget https://ubuntu-ir.github.io/traktor/torrc -O /etc/tor/torrc > /dev/null
 
