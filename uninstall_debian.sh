@@ -5,7 +5,7 @@ echo -e "Traktor v1.3\nTor will be automatically uinstalled ...\n\n"
 sudo apt remove -y \
 	tor \
 	obfs4proxy \
-	polipo \
+	privoxy \
 	dnscrypt-proxy \
 	torbrowser-launcher \
 	apt-transport-tor
