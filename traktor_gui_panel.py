@@ -89,7 +89,7 @@ def proxy_mode(_):
     proxy.set_strv("ignore-hosts", ['localhost', '127.0.0.0/8', '::1', '192.168.0.0/16', '10.0.0.0/8', '172.16.0.0/12'])
     http = Gio.Settings.new("org.gnome.system.proxy.http")
     http.set_string("host", "127.0.0.1")
-    http.set_int("port", 8123)
+    http.set_int("port", 8118)
     socks = Gio.Settings.new("org.gnome.system.proxy.socks")
     socks.set_string("host", "127.0.0.1")
     socks.set_int("port", 9050)
