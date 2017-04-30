@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo -e "Traktor v1.3\nTor will be automatically uinstalled ...\n\n"
+echo -e "Traktor v1.6\nTor will be automatically uinstalled ...\n\n"
 
 sudo apt remove -y \
 	tor \
