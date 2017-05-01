@@ -24,8 +24,8 @@ Do NOT expect anonymity using this method. Privoxy is an http proxy and can leak
     curl -s https://raw.githubusercontent.com/ubuntu-ir/traktor/master/traktor.sh | sh
     
 ## Changes
-    1.6 version:
-        1. fix icons tor
+    version 1.6:
+        1. fix tor icons
         2. add new obfs3 bridges
         3. add new obfs4 bridges
         4. backup torrc file
