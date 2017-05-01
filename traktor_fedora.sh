@@ -91,4 +91,4 @@ while [ $bootstraped == 'n' ]; do
 done
 
 # update finished
-echo "Congratulations!!! Your computer is using Tor. may run tor-browser-en-ir now."
+echo "Congratulations!!! Your computer is using Tor. may run torbrowser-launcher now."
