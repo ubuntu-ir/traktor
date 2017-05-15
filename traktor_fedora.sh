@@ -57,20 +57,15 @@ sudo systemctl enable privoxy
 sudo systemctl restart privoxy.service
 
 
-echo "Do you want to use tor on whole network? [y/N]"
-echo "If press No you have to manually set proxy to SOCKS5 127.0.0.1:9050 or HTTP 127.0.0.1:8118"
 
-read -n 1 SELECT
-if [ "$SELECT" = "Y" -o "$SELECT" = "y" ]
-then
-	# Set IP and Port on HTTP and SOCKS
-	gsettings set org.gnome.system.proxy mode 'manual'
-	gsettings set org.gnome.system.proxy.http host 127.0.0.1
-	gsettings set org.gnome.system.proxy.http port 8118
-	gsettings set org.gnome.system.proxy.socks host 127.0.0.1
-	gsettings set org.gnome.system.proxy.socks port 9050
-	gsettings set org.gnome.system.proxy ignore-hosts "['localhost', '127.0.0.0/8', '::1', '192.168.0.0/16', '10.0.0.0/8', '172.16.0.0/12']"
-fi
+# Set IP and Port on HTTP and SOCKS
+gsettings set org.gnome.system.proxy mode 'manual'
+gsettings set org.gnome.system.proxy.http host 127.0.0.1
+gsettings set org.gnome.system.proxy.http port 8118
+gsettings set org.gnome.system.proxy.socks host 127.0.0.1
+gsettings set org.gnome.system.proxy.socks port 9050
+gsettings set org.gnome.system.proxy ignore-hosts "['localhost', '127.0.0.0/8', '::1', '192.168.0.0/16', '10.0.0.0/8', '172.16.0.0/12']"
+
 
 
 
