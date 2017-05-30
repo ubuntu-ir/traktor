@@ -1,7 +1,7 @@
 #!/bin/bash
 clear
 
-echo -e "Traktor v1.6\nTor will be automatically installed and configured…\n\n"
+echo -e "Traktor v1.7\nTor will be automatically installed and configured…\n\n"
 
 # Install Packages
 sudo pacman -Sy 1>/dev/null 2>&1
