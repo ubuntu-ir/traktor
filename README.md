@@ -24,7 +24,7 @@ Do NOT expect anonymity using this method. Privoxy is an http proxy and can leak
     curl -s https://raw.githubusercontent.com/ubuntu-ir/traktor/master/traktor.sh | sh
     
 ## Changes
-    version 1.6:
+    Version 1.6:
         1. fix tor icons
         2. add new obfs3 bridges
         3. add new obfs4 bridges
@@ -32,3 +32,8 @@ Do NOT expect anonymity using this method. Privoxy is an http proxy and can leak
         5. add privoxy package
         6. remove polipo package
         7. change port
+
+    Verion 1.7:
+        1. traktor is now supporting fedora
+        2. add traktor_fedora.sh file
+        3. remove unistall_debian.sh file
