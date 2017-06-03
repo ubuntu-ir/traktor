@@ -1,5 +1,5 @@
 # traktor
-Traktor will autamically install Tor, privoxy, dnscrypt-proxy and Tor Browser Launcher in either a Debian based distro like Ubuntu or an Arch based distro  and configures them as well.
+Traktor will autamically install Tor, privoxy, dnscrypt-proxy and Tor Browser Launcher in either a Debian based distro like Ubuntu or an Arch based distro and configures them as well.
 
 To do this, just run 'traktor.sh' file in a supported shell like bash and watch for prompts it asks you.
 
@@ -37,3 +37,4 @@ Do NOT expect anonymity using this method. Privoxy is an http proxy and can leak
         1. traktor is now supporting fedora
         2. add traktor_fedora.sh file
         3. remove unistall_debian.sh file
+        4. remove traktor_gui_panel folder
