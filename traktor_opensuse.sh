@@ -4,7 +4,7 @@ clear
 sudo zypper addrepo http://download.opensuse.org/repositories/home:hayyan71/openSUSE_Leap_42.2/home:hayyan71.repo #add obfs4proxy
 sudo zypper addrepo http://download.opensuse.org/repositories/server:proxy/openSUSE_Leap_42.2/server:proxy.repo #add privoxy
 sudo zypper addrepo http://download.opensuse.org/repositories/server:dns/openSUSE_42.2/server:dns.repo #add dnscrypt-proxy
-sudozypper refresh
+sudo zypper --no-gpg-checks refresh
 #Install Packages
 sudo zypper in -l -y obfs4proxy dnscrypt-proxy privoxy
 
