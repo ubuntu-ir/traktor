@@ -15,6 +15,7 @@ fi
 
 # Write Bridge
 sudo wget https://ubuntu-ir.github.io/traktor/torrc -O /etc/tor/torrc > /dev/null
+sudo sed -i -- 's/Log notice file \/var\/log\/tor\/log/Log notice file \/var\/log\/tor\/tor.log/g' /etc/tor/torrc
 
 # Write Privoxy config
 sudo perl -i -pe 's/^listen-address/#$&/' /etc/privoxy/config
