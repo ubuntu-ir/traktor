@@ -35,9 +35,9 @@ if [ -f "/usr/share/xsessions/plasma5.desktop" ] #KDE Plasma5
 then
     ##study
     #use proxy in shell
-    sudo sed -i -- 's/PROXY_ENABLED="no"/PROXY_ENABLED="yes"/g' /etc/sysconfig/proxy
-    sudo sed -i -- 's/HTTP_PROXY=""/HTTP_PROXY="http:\/\/127.0.0.1:8118"/g' /etc/sysconfig/proxy
-    sudo sed -i -- 's/SOCKS_PROXY=""/SOCKS_PROXY="socks:\/\/127.0.0.1:9050"/g' /etc/sysconfig/proxy
+    #sudo sed -i -- 's/PROXY_ENABLED="no"/PROXY_ENABLED="yes"/g' /etc/sysconfig/proxy
+    #sudo sed -i -- 's/HTTP_PROXY=""/HTTP_PROXY="http:\/\/127.0.0.1:8118"/g' /etc/sysconfig/proxy
+    #sudo sed -i -- 's/SOCKS_PROXY=""/SOCKS_PROXY="socks:\/\/127.0.0.1:9050"/g' /etc/sysconfig/proxy
 else #gnome
     settings set org.gnome.system.proxy mode 'manual'
     gsettings set org.gnome.system.proxy.http host 127.0.0.1
