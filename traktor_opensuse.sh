@@ -33,7 +33,7 @@ sudo systemctl restart privoxy.service
 
 if [ -f "/usr/share/xsessions/plasma5.desktop" ] #KDE Plasma5
 then
-    ##nee more commits
+    ##need more commits
     ##use proxy in shell
     #sudo sed -i -- 's/PROXY_ENABLED="no"/PROXY_ENABLED="yes"/g' /etc/sysconfig/proxy
     #sudo sed -i -- 's/HTTP_PROXY=""/HTTP_PROXY="http:\/\/127.0.0.1:8118"/g' /etc/sysconfig/proxy
