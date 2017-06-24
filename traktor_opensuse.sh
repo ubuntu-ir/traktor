@@ -55,6 +55,7 @@ sudo service tor restart
 while [ $bootstraped == 'n' ]; do
 	if sudo cat /var/log/tor/tor.log | grep "Bootstrapped 100%: Done"; then
 		bootstraped='y'
+		echo "if you are using KDE , set IP and PORT manualy"
 	else
 		sleep 1
 	fi
