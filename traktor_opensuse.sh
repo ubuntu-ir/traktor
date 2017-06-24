@@ -4,7 +4,7 @@ clear
 sudo zypper addrepo http://download.opensuse.org/repositories/home:hayyan71/openSUSE_Leap_42.2/home:hayyan71.repo #add obfs4proxy
 sudo zypper addrepo http://download.opensuse.org/repositories/server:proxy/openSUSE_Leap_42.2/server:proxy.repo #add privoxy
 sudo zypper addrepo http://download.opensuse.org/repositories/server:dns/openSUSE_42.2/server:dns.repo #add dnscrypt-proxy
-sudo zypper --no-gpg-checks refresh
+sudo zypper --no-gpg-checks ref
 #Install Packages
 sudo zypper in -l -y obfs4proxy dnscrypt-proxy privoxy
 
@@ -34,6 +34,7 @@ sudo systemctl restart privoxy.service
 if [ -f "/usr/share/xsessions/plasma5.desktop" ] #KDE Plasma5
 then
     ##study
+    #use proxy in shell
     sudo sed -i -- 's/PROXY_ENABLED="no"/PROXY_ENABLED="yes"/g' /etc/sysconfig/proxy
     sudo sed -i -- 's/HTTP_PROXY=""/HTTP_PROXY="http:\/\/127.0.0.1:8118"/g' /etc/sysconfig/proxy
     sudo sed -i -- 's/SOCKS_PROXY=""/SOCKS_PROXY="socks:\/\/127.0.0.1:9050"/g' /etc/sysconfig/proxy
