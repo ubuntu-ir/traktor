@@ -1,4 +1,19 @@
 #!/bin/bash
+while getopts ":u" options; do
+    case $options in 
+    u)
+    	clear
+        echo -e "Traktor\nTor will be automatically uinstalled ...\n\n"
+        sudo zypper rr server_dns server_proxy home:hayyan71
+        sudo zypper rm obfs4proxy tor torsocks dnscrypt-proxy privoxy 
+        sudo rm -f /etc/tor/torrc 
+        gsettings set org.gnome.system.proxy mode 'auto'
+        echo "Uninstalling Finished Successfully."
+        exit 0
+    ;;
+    esac
+done
+
 clear
 #add repositories
 sudo zypper addrepo http://download.opensuse.org/repositories/home:hayyan71/openSUSE_Leap_42.2/home:hayyan71.repo #add obfs4proxy
@@ -55,7 +70,7 @@ sudo service tor restart
 while [ $bootstraped == 'n' ]; do
 	if sudo cat /var/log/tor/tor.log | grep "Bootstrapped 100%: Done"; then
 		bootstraped='y'
-		echo "if you are using KDE , set IP and PORT manualy"
+		echo "if you are using KDE , set IP and PORT manually"
 	else
 		sleep 1
 	fi
