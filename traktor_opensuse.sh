@@ -30,6 +30,7 @@ fi
 
 # Write Bridge
 sudo wget https://ubuntu-ir.github.io/traktor/torrc -O /etc/tor/torrc > /dev/null
+sudo sed -i '1 i\SOCKSPolicy accept 127.0.0.1:9050' /etc/tor/torrc
 sudo sed -i -- 's/Log notice file \/var\/log\/tor\/log/Log notice file \/var\/log\/tor\/tor.log/g' /etc/tor/torrc
 
 # Write Privoxy config
@@ -46,15 +47,17 @@ sudo systemctl restart privoxy.service
 
 # Set IP and Port on HTTP
 
-if [ -f "/usr/share/xsessions/plasma5.desktop" ] #KDE Plasma5
-then
+if [ -f "/usr/share/xsessions/plasma5.desktop" ]; then
+    echo
+    #KDE Plasma5
     ##need more commits
     ##use proxy in shell
     #sudo sed -i -- 's/PROXY_ENABLED="no"/PROXY_ENABLED="yes"/g' /etc/sysconfig/proxy
     #sudo sed -i -- 's/HTTP_PROXY=""/HTTP_PROXY="http:\/\/127.0.0.1:8118"/g' /etc/sysconfig/proxy
     #sudo sed -i -- 's/SOCKS_PROXY=""/SOCKS_PROXY="socks:\/\/127.0.0.1:9050"/g' /etc/sysconfig/proxy
-else #gnome
-    settings set org.gnome.system.proxy mode 'manual'
+else 
+    #gnome
+    gsettings set org.gnome.system.proxy mode 'manual'
     gsettings set org.gnome.system.proxy.http host 127.0.0.1
     gsettings set org.gnome.system.proxy.http port 8118
     gsettings set org.gnome.system.proxy.socks host 127.0.0.1
