@@ -2,7 +2,7 @@
 
 # License : GPLv3+
 
-#Checking if the distro is debianbase / archbase / redhatbase and running the correct script
+#Checking if the distro is debianbase / archbase / redhatbase/ openSUSEbae and running the correct script
 if pacman -Q &> /dev/null ;then
   if [ ! -f ./traktor_arch.sh ]; then
     wget -O ./traktor_arch.sh 'https://raw.githubusercontent.com/ubuntu-ir/traktor/master/traktor_arch.sh' || curl -O  https://raw.githubusercontent.com/ubuntu-ir/traktor/master/traktor_arch.sh
@@ -24,6 +24,13 @@ elif dnf list &> /dev/null ;then
   sudo chmod +x ./traktor_fedora.sh
   ./traktor_fedora.sh
   # echo "fedora"
+elif zypper search i+ &> /dev/null ;then
+  if [ ! -f ./traktor_opensuse.sh ]; then
+    wget -O ./traktor_opensuse.sh 'https://raw.githubusercontent.com/ubuntu-ir/traktor/master/traktor_opensuse.sh' || curl -O  https://raw.githubusercontent.com/ubuntu-ir/traktor/master/traktor_opensuse.sh
+  fi
+  sudo chmod +x ./traktor_opensuse.sh
+  ./traktor_opensuse.sh
+  # echo "openSUSE"
 else
     echo "Your distro is neither archbase nor debianbase nor redhatbase So, The script is not going to work in your distro."
 fi
@@ -36,5 +43,8 @@ if [ ! -f ./traktor.sh ]; then # if then -> detect remote install
   fi
   if [ -f ./traktor_fedora.sh ]; then
     rm ./traktor_fedora.sh
+  fi
+  if [ -f ./traktor_opensuse.sh ]; then
+    rm ./traktor_opensuse.sh
   fi
 fi
