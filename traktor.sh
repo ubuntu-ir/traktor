@@ -9,6 +9,7 @@ if pacman -Q &> /dev/null ;then
   fi
   sudo chmod +x ./traktor_arch.sh
  ./traktor_arch.sh
+ touch ~/.traktor
   # echo "arch"
 elif apt list --installed &> /dev/null ;then
   if [ ! -f ./traktor_debian.sh ]; then
@@ -16,6 +17,7 @@ elif apt list --installed &> /dev/null ;then
   fi
   sudo chmod +x ./traktor_debian.sh
   ./traktor_debian.sh
+  touch ~/.traktor
   # echo "debian"
 elif dnf list &> /dev/null ;then
   if [ ! -f ./traktor_fedora.sh ]; then
@@ -23,6 +25,7 @@ elif dnf list &> /dev/null ;then
   fi
   sudo chmod +x ./traktor_fedora.sh
   ./traktor_fedora.sh
+  touch ~/.traktor
   # echo "fedora"
 else
     echo "Your distro is neither archbase nor debianbase nor redhatbase So, The script is not going to work in your distro."
