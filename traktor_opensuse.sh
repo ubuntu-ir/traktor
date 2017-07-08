@@ -21,7 +21,9 @@ sudo sed -i -- 's/Log notice file \/var\/log\/tor\/log/Log notice file \/var\/lo
 sudo perl -i -pe 's/^listen-address/#$&/' /etc/privoxy/config
 echo 'logdir /var/log/privoxy
 listen-address  0.0.0.0:8118
-forward-socks5t             /     127.0.0.1:9050 .
+forward-socks5 / 127.0.0.1:9050  .
+forward-socks4a / 127.0.0.1:9050 .
+forward-socks5t / 127.0.0.1:9050 .
 forward         192.168.*.*/     .
 forward            10.*.*.*/     .
 forward           127.*.*.*/     .
