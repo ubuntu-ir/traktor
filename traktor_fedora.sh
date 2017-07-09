@@ -1,7 +1,7 @@
 #!/bin/bash
 clear
 
-echo -e "Traktor v1.7\nTor will be automatically installed and configured…\n\n"
+echo -e "Traktor v1.8\nTor will be automatically installed and configured…\n\n"
 
 # Install Packages
 sudo dnf install -y  \
