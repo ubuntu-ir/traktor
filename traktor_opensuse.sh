@@ -1,4 +1,19 @@
 #!/bin/bash
+while getopts ":u" options; do
+    case $options in 
+    u)
+    	clear
+        echo -e "Traktor\nTor will be automatically uinstalled ...\n\n"
+        sudo zypper rr server_dns server_proxy home:hayyan71
+        sudo zypper rm obfs4proxy tor torsocks dnscrypt-proxy privoxy 
+        sudo rm -f /etc/tor/torrc 
+        gsettings set org.gnome.system.proxy mode 'auto'
+        echo "Uninstalling Finished Successfully."
+        exit 0
+    ;;
+    esac
+done
+
 clear
 #add repositories
 sudo zypper addrepo http://download.opensuse.org/repositories/home:hayyan71/openSUSE_Leap_42.2/home:hayyan71.repo #add obfs4proxy
@@ -15,6 +30,7 @@ fi
 
 # Write Bridge
 sudo wget https://ubuntu-ir.github.io/traktor/torrc -O /etc/tor/torrc > /dev/null
+sudo sed -i '1 i\SOCKSPolicy accept 127.0.0.1:9050' /etc/tor/torrc
 sudo sed -i -- 's/Log notice file \/var\/log\/tor\/log/Log notice file \/var\/log\/tor\/tor.log/g' /etc/tor/torrc
 
 # Write Privoxy config
@@ -31,15 +47,17 @@ sudo systemctl restart privoxy.service
 
 # Set IP and Port on HTTP
 
-if [ -f "/usr/share/xsessions/plasma5.desktop" ] #KDE Plasma5
-then
+if [ -f "/usr/share/xsessions/plasma5.desktop" ]; then
+    echo
+    #KDE Plasma5
     ##need more commits
     ##use proxy in shell
     #sudo sed -i -- 's/PROXY_ENABLED="no"/PROXY_ENABLED="yes"/g' /etc/sysconfig/proxy
     #sudo sed -i -- 's/HTTP_PROXY=""/HTTP_PROXY="http:\/\/127.0.0.1:8118"/g' /etc/sysconfig/proxy
     #sudo sed -i -- 's/SOCKS_PROXY=""/SOCKS_PROXY="socks:\/\/127.0.0.1:9050"/g' /etc/sysconfig/proxy
-else #gnome
-    settings set org.gnome.system.proxy mode 'manual'
+else 
+    #gnome
+    gsettings set org.gnome.system.proxy mode 'manual'
     gsettings set org.gnome.system.proxy.http host 127.0.0.1
     gsettings set org.gnome.system.proxy.http port 8118
     gsettings set org.gnome.system.proxy.socks host 127.0.0.1
@@ -55,7 +73,7 @@ sudo service tor restart
 while [ $bootstraped == 'n' ]; do
 	if sudo cat /var/log/tor/tor.log | grep "Bootstrapped 100%: Done"; then
 		bootstraped='y'
-		echo "if you are using KDE , set IP and PORT manualy"
+		echo "if you are using KDE , set IP and PORT manually"
 	else
 		sleep 1
 	fi
