@@ -1,19 +1,4 @@
 #!/bin/bash
-while getopts ":u" options; do
-    case $options in 
-    u)
-    	clear
-        echo -e "Traktor\nTor will be automatically uinstalled ...\n\n"
-        sudo zypper rr server_dns server_proxy home:hayyan71
-        sudo zypper rm obfs4proxy tor torsocks dnscrypt-proxy privoxy 
-        sudo rm -f /etc/tor/torrc 
-        gsettings set org.gnome.system.proxy mode 'auto'
-        echo "Uninstalling Finished Successfully."
-        exit 0
-    ;;
-    esac
-done
-
 clear
 #add repositories
 sudo zypper addrepo http://download.opensuse.org/repositories/home:hayyan71/openSUSE_Leap_42.2/home:hayyan71.repo #add obfs4proxy
@@ -56,7 +41,7 @@ if [ -f "/usr/share/xsessions/plasma5.desktop" ]; then
     #sudo sed -i -- 's/HTTP_PROXY=""/HTTP_PROXY="http:\/\/127.0.0.1:8118"/g' /etc/sysconfig/proxy
     #sudo sed -i -- 's/SOCKS_PROXY=""/SOCKS_PROXY="socks:\/\/127.0.0.1:9050"/g' /etc/sysconfig/proxy
 else 
-    #gnome
+    #gnome or xfce 
     gsettings set org.gnome.system.proxy mode 'manual'
     gsettings set org.gnome.system.proxy.http host 127.0.0.1
     gsettings set org.gnome.system.proxy.http port 8118
