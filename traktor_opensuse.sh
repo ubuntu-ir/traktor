@@ -1,6 +1,6 @@
 #!/bin/bash
 clear
-echo -e "Traktor v1.9\nTor will be automatically installed and configured…\n\n"
+echo -e "Traktor v1.8\nTor will be automatically installed and configured…\n\n"
 #add repositories
 sudo zypper addrepo http://download.opensuse.org/repositories/home:hayyan71/openSUSE_Leap_42.2/home:hayyan71.repo #add obfs4proxy
 sudo zypper addrepo http://download.opensuse.org/repositories/server:proxy/openSUSE_Leap_42.2/server:proxy.repo #add privoxy
