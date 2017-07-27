@@ -1,23 +1,23 @@
 #!/bin/bash
 clear
 
-echo -e "Traktor v1.8\nTor will be automatically installed and configured…\n\n"
+echo -e "Traktor v1.9\nTor will be automatically installed and configured…\n\n"
 
 # Install Packages
 sudo dnf install -y  \
 	tor \
 	privoxy \
 	dnscrypt-proxy \
-        torbrowser-launcher \
+    torbrowser-launcher \
 
 sudo dnf install -y \
-         make \
-         automake \
-         gcc \
-         python-pip \
-         python-devel \
-         libyaml-devel \
-         redhat-rpm-config
+    make \
+    automake \
+    gcc \
+    python-pip \
+    python-devel \
+    libyaml-devel \
+    redhat-rpm-config
 
 sudo pip install obfsproxy
 
@@ -25,7 +25,6 @@ if [ -f "/etc/tor/torrc" ]; then
     echo "Backing up the old torrc to '/etc/tor/torrc.traktor-backup'..."
     sudo cp /etc/tor/torrc /etc/tor/torrc.traktor-backup
 fi
-
 
 #configuring dnscrypt-proxy
 sudo wget https://ubuntu-ir.github.io/traktor/dnscrypt-proxy.service-fedora -O /etc/systemd/system/dnscrypt.service > /dev/null
@@ -43,7 +42,6 @@ sudo wget https://ubuntu-ir.github.io/traktor/torrcV3 -O /etc/tor/torrc > /dev/n
 sudo touch /var/log/tor/log
 sudo chown toranon:toranon /var/log/tor/log
 
-
 # Write Privoxy config
 sudo perl -i -pe 's/^listen-address/#$&/' /etc/privoxy/config
 echo 'logdir /var/log/privoxy
@@ -56,18 +54,13 @@ forward           localhost/     .' | sudo tee -a /etc/privoxy/config > /dev/nul
 sudo systemctl enable privoxy
 sudo systemctl restart privoxy.service
 
-
-
 # Set IP and Port on HTTP and SOCKS
 gsettings set org.gnome.system.proxy mode 'manual'
 gsettings set org.gnome.system.proxy.http host 127.0.0.1
 gsettings set org.gnome.system.proxy.http port 8118
 gsettings set org.gnome.system.proxy.socks host 127.0.0.1
 gsettings set org.gnome.system.proxy.socks port 9050
-gsettings set org.gnome.system.proxy ignore-hosts "['localhost', '127.0.0.0/8', '::1', '192.168.0.0/16', '10.0.0.0/8', '172.16.0.0/12']"
-
-
-
+gsettings set org.gnome.system.proxy ignore-hosts "['localhost', '127.0.0.0/8', '::1', '192.168.0.0/16', '192.168.8.1', '10.0.0.0/8', '172.16.0.0/12', '0.0.0.0/8', '10.0.0.0/8', '100.64.0.0/10', '127.0.0.0/8', '169.254.0.0/16', '172.16.0.0/12', '192.0.0.0/24', '192.0.2.0/24', '192.168.0.0/16', '192.88.99.0/24', '198.18.0.0/15', '198.51.100.0/24', '203.0.113.0/24', '224.0.0.0/3']"
 
 # Install Finish
 echo "Install Finished successfully…"

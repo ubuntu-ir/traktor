@@ -1,7 +1,7 @@
 #!/bin/bash
 clear
 
-echo -e "Traktor v1.7\nTor will be automatically installed and configured…\n\n"
+echo -e "Traktor v1.9\nTor will be automatically installed and configured…\n\n"
 
 # Install Packages
 sudo pacman -Sy 1>/dev/null 2>&1
@@ -59,7 +59,7 @@ then
 	gsettings set org.gnome.system.proxy.http port 8118
 	gsettings set org.gnome.system.proxy.socks host 127.0.0.1
 	gsettings set org.gnome.system.proxy.socks port 9050
-	gsettings set org.gnome.system.proxy ignore-hosts "['localhost', '127.0.0.0/8', '::1', '192.168.0.0/16', '10.0.0.0/8', '172.16.0.0/12']"
+	gsettings set org.gnome.system.proxy ignore-hosts "['localhost', '127.0.0.0/8', '::1', '192.168.0.0/16', '192.168.8.1', '10.0.0.0/8', '172.16.0.0/12', '0.0.0.0/8', '10.0.0.0/8', '100.64.0.0/10', '127.0.0.0/8', '169.254.0.0/16', '172.16.0.0/12', '192.0.0.0/24', '192.0.2.0/24', '192.168.0.0/16', '192.88.99.0/24', '198.18.0.0/15', '198.51.100.0/24', '203.0.113.0/24', '224.0.0.0/3']"
 fi
 # Install Finish
 echo -e "\nInstall Finished successfully…"
