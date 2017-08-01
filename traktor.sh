@@ -17,7 +17,7 @@ while getopts ":u" options; do
     esac
 done
 
-#Checking if the distro is debianbase / archbase / redhatbase/ openSUSEbae and running the correct script
+#Checking if the distro is debianbase / archbase / redhatbase/ susebase and running the correct script
 if pacman -Q &> /dev/null ;then
   if [ ! -f ./traktor_arch.sh ]; then
     wget -O ./traktor_arch.sh 'https://raw.githubusercontent.com/ubuntu-ir/traktor/master/traktor_arch.sh' || curl -O  https://raw.githubusercontent.com/ubuntu-ir/traktor/master/traktor_arch.sh
