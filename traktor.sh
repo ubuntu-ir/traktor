@@ -2,7 +2,7 @@
 
 # License : GPLv3+
 
-#checking if user want to unintall traktor
+#checking if user want to uninstall traktor
 while getopts ":u" options; do
     case $options in 
     u)
