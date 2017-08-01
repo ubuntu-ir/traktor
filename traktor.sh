@@ -2,6 +2,21 @@
 
 # License : GPLv3+
 
+#checking if user want to unintall traktor
+while getopts ":u" options; do
+    case $options in 
+    u)
+      if zypper search i+ &> /dev/null ; then
+        if [ ! -f ./uninstall_opensuse.sh ]; then
+          wget -O ./uninstall_opensuse.sh 'https://raw.githubusercontent.com/ubuntu-ir/traktor/master/uninstall_opensuse.sh' || curl -O  https://raw.githubusercontent.com/ubuntu-ir/traktor/master/uninstall_opensuse.sh
+        fi
+        sudo chmod +x ./uninstall_opensuse.sh
+        ./uninstall_opensuse.sh
+      fi
+    ;;
+    esac
+done
+
 #Checking if the distro is debianbase / archbase / redhatbase/ openSUSEbae and running the correct script
 if pacman -Q &> /dev/null ;then
   if [ ! -f ./traktor_arch.sh ]; then
@@ -32,7 +47,7 @@ elif zypper search i+ &> /dev/null ;then
   ./traktor_opensuse.sh
   # echo "openSUSE"
 else
-    echo "Your distro is neither archbase nor debianbase nor redhatbase So, The script is not going to work in your distro."
+    echo "Your distro is neither archbase nor debianbase nor redhatbase nor susebase So, The script is not going to work in your distro."
 fi
 if [ ! -f ./traktor.sh ]; then # if then -> detect remote install
   if [ -f ./traktor_arch.sh ]; then
