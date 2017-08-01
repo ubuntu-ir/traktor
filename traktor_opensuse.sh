@@ -2,9 +2,8 @@
 clear
 echo -e "Traktor v1.8\nTor will be automatically installed and configured…\n\n"
 #add repositories
-sudo zypper addrepo http://download.opensuse.org/repositories/home:hayyan71/openSUSE_Leap_42.2/home:hayyan71.repo #add obfs4proxy
-sudo zypper addrepo http://download.opensuse.org/repositories/server:proxy/openSUSE_Leap_42.2/server:proxy.repo #add privoxy
-sudo zypper addrepo http://download.opensuse.org/repositories/server:dns/openSUSE_42.2/server:dns.repo #add dnscrypt-proxy
+sudo zypper addrepo http://download.opensuse.org/repositories/home:hayyan71/openSUSE_Leap_42.3/home:hayyan71.repo #add obfs4proxy
+sudo zypper addrepo http://download.opensuse.org/repositories/server:dns/openSUSE_42.3/server:dns.repo #add dnscrypt-proxy
 sudo zypper --no-gpg-checks ref
 #Install Packages
 sudo zypper in -l -y obfs4proxy dnscrypt-proxy privoxy
@@ -16,7 +15,7 @@ fi
 
 # Write Bridge
 sudo wget https://ubuntu-ir.github.io/traktor/torrc -O /etc/tor/torrc > /dev/null
-sudo sed -i '1 i\SOCKSPolicy accept 127.0.0.1:9050' /etc/tor/torrc
+sudo sed -i '1 i\AllowUnverifiedNodes middle,rendezvous' /etc/tor/torrc
 sudo sed -i -- 's/Log notice file \/var\/log\/tor\/log/Log notice file \/var\/log\/tor\/tor.log/g' /etc/tor/torrc
 
 # Write Privoxy config
