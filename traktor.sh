@@ -25,7 +25,9 @@ exit 0
 }
 
 function help { #need more commits
-echo 'help'
+echo -e "OPTIONS        \n\nuninstall           Uninstalls the supported distro \nrestart                       Restarts the tor.service\nproxy-off             Disables the system wide proxy\nproxy-on\
+                Enables the system wide proxy\n\nhttps://github.com/ubuntu-ir/traktor" | less
+exit 0
 exit 0
 }
 
