@@ -66,6 +66,7 @@ case "$1" in
 	"proxy-on")	    proxyOn    ;;
 	"proxy-off")	proxyOff   ;;
 	"uninstall")	uninstall  ;;
+	"") 			   ;;
 	*)	        	none       ;; 
 esac
 
