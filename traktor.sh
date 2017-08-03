@@ -2,6 +2,75 @@
 
 # License : GPLv3+
 
+#=========functions=========
+
+function restart {
+sudo systemctl restart tor.service
+echo "Done."
+exit 0
+
+}
+
+function proxyOff {
+gsettings  set org.gnome.system.proxy mode 'none'
+echo "Done."
+exit 0
+
+}
+
+function proxyOn {
+gsettings set org.gnome.system.proxy mode 'manual'
+echo "Done."
+exit 0
+}
+
+function help { #need more commits
+echo 'help'
+exit 0
+}
+
+function uninstall {
+
+if zypper search i+ &> /dev/null ; then
+	 if [ ! -f ./uninstall_opensuse.sh ]; then
+	 	 wget -O ./uninstall_opensuse.sh 'https://raw.githubusercontent.com/ubuntu-ir/traktor/master/uninstall_opensuse.sh' || curl -O  https://raw.githubusercontent.com/ubuntu-ir/traktor/master/uninstall_opensuse.sh
+       	fi
+        sudo chmod +x ./uninstall_opensuse.sh
+        ./uninstall_opensuse.sh
+	#echo "opensuse"   
+
+elif apt list --installed &> /dev/null ;then
+  	if [ ! -f ./uninstall_debian.sh ]; then
+   		 wget -O ./uninstall_debian.sh 'https://raw.githubusercontent.com/ubuntu-ir/traktor/master/uninstall_debian.sh' || curl -O  https://raw.githubusercontent.com/ubuntu-ir/traktor/master/uninstall_debian.sh
+  	fi
+  	sudo chmod +x ./uninstall_debian.sh
+  	./traktor_debian.sh
+ 	 # echo "debian"
+else
+    echo "Your distro is neither  debianbase nor susebase So, The script is not going to work in your distro."
+fi
+exit 0
+}
+
+function none {
+echo -e 'Switch not defined .\nPlease read the help "./traktor.sh help"'
+exit 1
+}
+#=======main=======
+
+
+#searchs or args to call the right  function
+case "$1" in
+	"help")	        help	   ;;
+	"restart")      restart	   ;;
+	"proxy-on")	    proxyOn    ;;
+	"proxy-off")	proxyOff   ;;
+	"uninstall")	uninstall  ;;
+	*)	        	none       ;; 
+esac
+
+#no args --> instaling tor 
+
 #checking if user want to uninstall traktor
 while getopts ":u" options; do
     case $options in 
