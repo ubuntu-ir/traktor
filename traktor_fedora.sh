@@ -59,7 +59,7 @@ fi
 sudo wget https://ubuntu-ir.github.io/traktor/dnscrypt-proxy.service-fedora -O /etc/systemd/system/dnscrypt.service > /dev/null
 sudo systemctl daemon-reload
 echo "nameserver 127.0.0.1" | sudo tee /etc/resolv.conf >/dev/null
-sudo chattr +i /etc/resolv.conf
+#sudo chattr +i /etc/resolv.conf
 sudo systemctl enable dnscrypt.service
 sudo systemctl start dnscrypt.service
 
