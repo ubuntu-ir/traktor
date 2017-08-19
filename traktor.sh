@@ -2,7 +2,94 @@
 
 # License : GPLv3+
 
-#Checking if the distro is debianbase / archbase / redhatbase/ openSUSEbae and running the correct script
+#=========functions=========
+
+function restart {
+sudo systemctl restart tor.service
+echo "Done."
+exit 0
+
+}
+
+function proxyOff {
+gsettings  set org.gnome.system.proxy mode 'none'
+echo "Done."
+exit 0
+
+}
+
+function proxyOn {
+gsettings set org.gnome.system.proxy mode 'manual'
+echo "Done."
+exit 0
+}
+
+function help { #need more commits
+echo -e "OPTIONS        \n\nuninstall           Uninstalls the supported distro \nrestart                       Restarts the tor.service\nproxy-off             Disables the system wide proxy\nproxy-on\
+                Enables the system wide proxy\n\nhttps://github.com/ubuntu-ir/traktor" | less
+exit 0
+exit 0
+}
+
+function uninstall {
+
+if zypper search i+ &> /dev/null ; then
+	 if [ ! -f ./uninstall_opensuse.sh ]; then
+	 	 wget -O ./uninstall_opensuse.sh 'https://raw.githubusercontent.com/ubuntu-ir/traktor/master/uninstall_opensuse.sh' || curl -O  https://raw.githubusercontent.com/ubuntu-ir/traktor/master/uninstall_opensuse.sh
+       	fi
+        sudo chmod +x ./uninstall_opensuse.sh
+        ./uninstall_opensuse.sh
+	#echo "opensuse"   
+
+elif apt list --installed &> /dev/null ;then
+  	if [ ! -f ./uninstall_debian.sh ]; then
+   		 wget -O ./uninstall_debian.sh 'https://raw.githubusercontent.com/ubuntu-ir/traktor/master/uninstall_debian.sh' || curl -O  https://raw.githubusercontent.com/ubuntu-ir/traktor/master/uninstall_debian.sh
+  	fi
+  	sudo chmod +x ./uninstall_debian.sh
+  	./traktor_debian.sh
+ 	 # echo "debian"
+else
+    echo "Your distro is neither  debianbase nor susebase So, The script is not going to work in your distro."
+fi
+exit 0
+}
+
+function none {
+echo -e 'Switch not defined .\nPlease read the help "./traktor.sh help"'
+exit 1
+}
+#=======main=======
+
+
+#searchs or args to call the right  function
+case "$1" in
+	"help")	        help	   ;;
+	"restart")      restart	   ;;
+	"proxy-on")	    proxyOn    ;;
+	"proxy-off")	proxyOff   ;;
+	"uninstall")	uninstall  ;;
+	"") 			   ;;
+	*)	        	none       ;; 
+esac
+
+#no args --> instaling tor 
+
+#checking if user want to uninstall traktor
+while getopts ":u" options; do
+    case $options in 
+    u)
+      if zypper search i+ &> /dev/null ; then
+        if [ ! -f ./uninstall_opensuse.sh ]; then
+          wget -O ./uninstall_opensuse.sh 'https://raw.githubusercontent.com/ubuntu-ir/traktor/master/uninstall_opensuse.sh' || curl -O  https://raw.githubusercontent.com/ubuntu-ir/traktor/master/uninstall_opensuse.sh
+        fi
+        sudo chmod +x ./uninstall_opensuse.sh
+        ./uninstall_opensuse.sh
+      fi
+    ;;
+    esac
+done
+
+#Checking if the distro is debianbase / archbase / redhatbase/ susebase and running the correct script
 if pacman -Q &> /dev/null ;then
   if [ ! -f ./traktor_arch.sh ]; then
     wget -O ./traktor_arch.sh 'https://raw.githubusercontent.com/ubuntu-ir/traktor/master/traktor_arch.sh' || curl -O  https://raw.githubusercontent.com/ubuntu-ir/traktor/master/traktor_arch.sh
@@ -32,7 +119,7 @@ elif zypper search i+ &> /dev/null ;then
   ./traktor_opensuse.sh
   # echo "openSUSE"
 else
-    echo "Your distro is neither archbase nor debianbase nor redhatbase So, The script is not going to work in your distro."
+    echo "Your distro is neither archbase nor debianbase nor redhatbase nor susebase So, The script is not going to work in your distro."
 fi
 if [ ! -f ./traktor.sh ]; then # if then -> detect remote install
   if [ -f ./traktor_arch.sh ]; then
