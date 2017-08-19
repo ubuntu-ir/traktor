@@ -1,7 +1,35 @@
 #!/bin/bash
 clear
 
-echo -e "Traktor v1.8\nTor will be automatically installed and configured…\n\n"
+echo -e "Traktor v1.8\nTor will be automatically installed and configured…\n"
+function acceptance_agreement()
+{ 
+    echo "This script is going to install these applications:"
+    echo "-------------------------------------------"
+    # Applications list
+    echo -e " * Tor\n * Obfs4proxy\n * dnscrypt-proxy\n * torbrowser-launcher\n * apt-transport-tor"
+    echo "-------------------------------------------"
+    echo "Do you agree ?(y/n)"
+    read answer
+    answer=${answer:-'y'} # set default value as yes
+    case $answer in
+        y|Y)
+            clear
+            echo "Start installation..."
+            ;;
+        n|N)
+            echo "Cancel installation and exit..."
+            exit 2
+            ;;
+        *)
+            echo "Wrong answer!"
+            echo "Exiting..."
+            exit
+            ;;
+    esac
+    
+}
+acceptance_agreement
 
 # Install Packages
 sudo apt-get update > /dev/null
