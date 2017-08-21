@@ -46,7 +46,7 @@ elif apt list --installed &> /dev/null ;then
    		 wget -O ./uninstall_debian.sh 'https://raw.githubusercontent.com/ubuntu-ir/traktor/master/uninstall_debian.sh' || curl -O  https://raw.githubusercontent.com/ubuntu-ir/traktor/master/uninstall_debian.sh
   	fi
   	sudo chmod +x ./uninstall_debian.sh
-  	./traktor_debian.sh
+  	./uninstall_debian.sh
  	 # echo "debian"
 else
     echo "Your distro is neither  debianbase nor susebase So, The script is not going to work in your distro."
@@ -73,22 +73,6 @@ case "$1" in
 esac
 
 #no args --> instaling tor 
-
-#checking if user want to uninstall traktor
-while getopts ":u" options; do
-    case $options in 
-    u)
-      if zypper search i+ &> /dev/null ; then
-        if [ ! -f ./uninstall_opensuse.sh ]; then
-          wget -O ./uninstall_opensuse.sh 'https://raw.githubusercontent.com/ubuntu-ir/traktor/master/uninstall_opensuse.sh' || curl -O  https://raw.githubusercontent.com/ubuntu-ir/traktor/master/uninstall_opensuse.sh
-        fi
-        sudo chmod +x ./uninstall_opensuse.sh
-        ./uninstall_opensuse.sh
-      fi
-    ;;
-    esac
-done
-
 #Checking if the distro is debianbase / archbase / redhatbase/ susebase and running the correct script
 if pacman -Q &> /dev/null ;then
   if [ ! -f ./traktor_arch.sh ]; then
