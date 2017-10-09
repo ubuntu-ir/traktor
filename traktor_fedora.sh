@@ -47,7 +47,8 @@ sudo dnf install -y \
          libyaml-devel \
          redhat-rpm-config
 
-sudo pip install obfsproxy
+# sudo pip install obfsproxy
+sudo dnf install -y obfs4
 
 if [ -f "/etc/tor/torrc" ]; then
     echo "Backing up the old torrc to '/etc/tor/torrc.traktor-backup'..."
