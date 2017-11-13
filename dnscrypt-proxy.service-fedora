@@ -1,0 +1,11 @@
+[Unit]
+Description=dnscrypt - Encrypted DNS service provided by OpenDNS
+After=NetworkManager.service
+
+[Service]
+ExecStart=/usr/sbin/dnscrypt-proxy -R cisco
+ExecReload=/bin/kill -HUP $MAINPID
+
+[Install]
+WantedBy=basic.target
+
