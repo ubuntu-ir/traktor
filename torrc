@@ -1,3 +1,4 @@
+Log notice file /var/log/tor/log
 UseBridges 1
 Log notice file /var/log/tor/log
 Bridge obfs4 194.132.209.170:36441 B16B4B1B10910B6EC4A3E713297C4EAE9DFB5229 cert=SzdrMUoL49NrQ0WpTy3dw26MlxNAcvD3lLFqZDrAA/euN++77WueeirzoV2OU5QpJplfUQ iat-mode=0
