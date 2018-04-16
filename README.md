@@ -1,4 +1,5 @@
-# Traktor 1.8
+# This projects is dropped. Please use [Traktor new generation](https://gitlab.com/danialbehzadi/traktor-ng) which is available via PPA too.
+
 Traktor will autamically install Tor, privoxy, dnscrypt-proxy and Tor Browser Launcher in either a Debian based distro like Ubuntu or an Arch based distro and configures them as well.
 
 To do this, just run 'traktor.sh' file in a supported shell like bash and watch for prompts it asks you.
