@@ -1,1 +1,1 @@
-# This projects is dropped. Please use [Tractor](https://gitlab.com/tractor-team/tractor) instead.
+# This projects is dropped. Please use [Tractor](https://framagit.org/tractor) instead.
